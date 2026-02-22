@@ -4,11 +4,27 @@ import { useI18n } from 'vue-i18n'
 import Button from './Button.vue'
 
 const { t } = useI18n()
-const windowsDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const androidDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const AUR_COMMAND = 'paru -S micyou-bin'
+const exeDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const zipDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const debDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const rpmDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const apkDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const releaseVersion = ref('Latest')
 const isLoading = ref(true)
+const aurMessage = ref('')
+
+const copyAurCommand = async () => {
+  try {
+    await navigator.clipboard.writeText(AUR_COMMAND)
+    aurMessage.value = t('download.aurCommandCopied')
+    setTimeout(() => {
+      aurMessage.value = ''
+    }, 3000)
+  } catch (err) {
+    console.error('Failed to copy:', err)
+  }
+}
 
 const fetchReleaseData = async () => {
   try {
@@ -19,14 +35,23 @@ const fetchReleaseData = async () => {
     releaseVersion.value = data.tag_name
     
     const apkAsset = data.assets.find(asset => asset.name.endsWith('.apk'))
-    const exeAsset = data.assets.find(asset => asset.name.endsWith('.exe') || asset.name.endsWith('.msi') || asset.name.endsWith('.zip'))
+    const exeAsset = data.assets.find(asset => asset.name.endsWith('.exe') || asset.name.endsWith('.msi'))
+    const zipAsset = data.assets.find(asset => asset.name.endsWith('.zip'))
+    const debAsset = data.assets.find(asset => asset.name.endsWith('.deb'))
+    const rpmAsset = data.assets.find(asset => asset.name.endsWith('.rpm')) 
     
     const releasePage = data.html_url
 
     if (exeAsset) {
-        windowsDownloadUrl.value = exeAsset.browser_download_url
+        exeDownloadUrl.value = exeAsset.browser_download_url
     } else {
-        windowsDownloadUrl.value = releasePage
+        exeDownloadUrl.value = releasePage
+    }
+
+    if (zipAsset) {
+        zipDownloadUrl.value = zipAsset.browser_download_url
+    } else {
+        zipDownloadUrl.value = releasePage
     }
 
     if (apkAsset) {
@@ -35,7 +60,17 @@ const fetchReleaseData = async () => {
         apkDownloadUrl.value = releasePage
     }
     
-    androidDownloadUrl.value = releasePage 
+    if (debAsset) {
+        debDownloadUrl.value = debAsset.browser_download_url
+    } else {
+        debDownloadUrl.value = releasePage
+    } 
+
+    if (rpmAsset) {
+        rpmDownloadUrl.value = rpmAsset.browser_download_url
+    } else {
+        rpmDownloadUrl.value = releasePage
+    }
     
   } catch (error) {
     console.error('Error fetching release data', error)
@@ -65,12 +100,20 @@ onMounted(() => {
           </div>
           <h3 class="platform-name">{{ $t('download.winClient') }}</h3>
           <p class="platform-desc">{{ $t('download.winReq') }}</p>
-          <Button 
-            variant="filled" 
-            :label="isLoading ? $t('download.loading') : $t('download.btnWinDownload')" 
-            icon="download" 
-            :href="windowsDownloadUrl" 
-          />
+          <div class="store-buttons">
+             <Button 
+               variant="filled" 
+               :label="isLoading ? $t('download.loading') : $t('download.btnWinDownload')" 
+               icon="download" 
+               :href="exeDownloadUrl" 
+             />
+             <Button 
+               variant="outlined" 
+               :label="$t('download.btnWinZip')" 
+               icon="download" 
+               :href="zipDownloadUrl" 
+             />
+          </div>
           <div class="version-info">{{ releaseVersion }} • {{ $t('download.bit64') }}</div>
         </div>
 
@@ -82,10 +125,25 @@ onMounted(() => {
           <h3 class="platform-name">{{ $t('download.androidApp') }}</h3>
           <p class="platform-desc">{{ $t('download.androidReq') }}</p>
           <div class="store-buttons">
-             <Button variant="filled" :label="$t('download.btnGithub')" icon="shop" :href="androidDownloadUrl" />
-             <Button variant="outlined" :label="$t('download.btnApk')" icon="android" :href="apkDownloadUrl" />
+             <Button variant="filled" :label="$t('download.btnApk')" icon="android" :href="apkDownloadUrl" />
           </div>
           <div class="version-info">{{ releaseVersion }}</div>
+        </div>
+
+        <!-- Linux Card -->
+        <div class="download-card">
+          <div class="platform-icon">
+             <span class="material-symbols-rounded">desktop_mac</span>
+          </div>
+          <h3 class="platform-name">{{ $t('download.linuxClient') }}</h3>
+          <p class="platform-desc">{{ $t('download.linuxReq') }}</p>
+          <div class="store-buttons">
+             <Button variant="filled" :label="$t('download.btnLinuxDebian')" icon="download" :href="debDownloadUrl" />
+             <Button variant="filled" :label="$t('download.btnLinuxRPM')" icon="download" :href="rpmDownloadUrl" />
+             <Button variant="outlined" :label="$t('download.btnLinuxAUR')" icon="content_copy" @click="copyAurCommand" />
+             <div v-if="aurMessage" class="aur-message">{{ aurMessage }}</div>
+          </div>
+          <div class="version-info">{{ releaseVersion }} • {{ $t('download.bit64') }}</div>
         </div>
       </div>
     </div>
@@ -126,7 +184,7 @@ onMounted(() => {
 
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   justify-content: center;
 }
@@ -180,9 +238,25 @@ onMounted(() => {
   width: 100%;
 }
 
+.aur-message {
+  padding: 8px 12px;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 4px;
+}
+
 .version-info {
   margin-top: 16px;
   font-size: 12px;
   color: var(--md-sys-color-outline);
+}
+
+@media (max-width: 768px) {
+  .download-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
