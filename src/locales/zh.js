@@ -40,7 +40,7 @@ export default {
         btnLinuxDebian: "下载 DEB 包",
         btnLinuxRPM: "下载 RPM 包",
         btnLinuxAUR: "从 AUR 助手安装",
-        aurCommandCopied: "命令已复制到剪贴板！",
+        aurCommandCopied: "已复制",
         loading: "获取最新版本...",
         androidApp: "Android 应用",
         androidReq: "系统要求 Android 8.0 及以上",

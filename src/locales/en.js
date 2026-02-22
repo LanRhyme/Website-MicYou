@@ -41,7 +41,7 @@ export default {
         btnLinuxRPM: "Download RPM Package",
         btnLinuxAUR: "Install from AUR Helper",
 
-        aurCommandCopied: "Command copied to clipboard!",
+        aurCommandCopied: "Copied",
         loading: "Loading...",
         androidApp: "Android App",
         androidReq: "Requires Android 8.0 or later.",
