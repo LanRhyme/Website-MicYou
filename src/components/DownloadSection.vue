@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import Button from './Button.vue'
 
 const { t } = useI18n()
-const windowsDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const exeDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
+const zipDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const debDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const rpmDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const apkDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
@@ -34,16 +35,23 @@ const fetchReleaseData = async () => {
     releaseVersion.value = data.tag_name
     
     const apkAsset = data.assets.find(asset => asset.name.endsWith('.apk'))
-    const exeAsset = data.assets.find(asset => asset.name.endsWith('.exe') || asset.name.endsWith('.msi') || asset.name.endsWith('.zip'))
+    const exeAsset = data.assets.find(asset => asset.name.endsWith('.exe') || asset.name.endsWith('.msi'))
+    const zipAsset = data.assets.find(asset => asset.name.endsWith('.zip'))
     const debAsset = data.assets.find(asset => asset.name.endsWith('.deb'))
     const rpmAsset = data.assets.find(asset => asset.name.endsWith('.rpm')) 
     
     const releasePage = data.html_url
 
     if (exeAsset) {
-        windowsDownloadUrl.value = exeAsset.browser_download_url
+        exeDownloadUrl.value = exeAsset.browser_download_url
     } else {
-        windowsDownloadUrl.value = releasePage
+        exeDownloadUrl.value = releasePage
+    }
+
+    if (zipAsset) {
+        zipDownloadUrl.value = zipAsset.browser_download_url
+    } else {
+        zipDownloadUrl.value = releasePage
     }
 
     if (apkAsset) {
@@ -92,12 +100,20 @@ onMounted(() => {
           </div>
           <h3 class="platform-name">{{ $t('download.winClient') }}</h3>
           <p class="platform-desc">{{ $t('download.winReq') }}</p>
-          <Button 
-            variant="filled" 
-            :label="isLoading ? $t('download.loading') : $t('download.btnWinDownload')" 
-            icon="download" 
-            :href="windowsDownloadUrl" 
-          />
+          <div class="store-buttons">
+             <Button 
+               variant="filled" 
+               :label="isLoading ? $t('download.loading') : $t('download.btnWinDownload')" 
+               icon="download" 
+               :href="exeDownloadUrl" 
+             />
+             <Button 
+               variant="outlined" 
+               :label="$t('download.btnWinZip')" 
+               icon="download" 
+               :href="zipDownloadUrl" 
+             />
+          </div>
           <div class="version-info">{{ releaseVersion }} • {{ $t('download.bit64') }}</div>
         </div>
 

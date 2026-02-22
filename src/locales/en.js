@@ -33,7 +33,8 @@ export default {
         subtitle: "Download the app on your phone and the client on your PC to start streaming high-quality audio.",
         winClient: "Windows Client",
         winReq: "Requires Windows 10 or later.",
-        btnWinDownload: "Download for Windows",
+        btnWinDownload: "Download Executable",
+        btnWinZip: "Download Portable",
         linuxClient: "Linux Client",
         linuxReq: "Requires compatible distro.",
         btnLinuxDebian: "Download .DEB",
@@ -44,7 +45,7 @@ export default {
         loading: "Loading...",
         androidApp: "Android App",
         androidReq: "Requires Android 8.0 or later.",
-        btnApk: "Download .APK",
+        btnApk: "Download APK",
         bit64: "64-bit"
     },
     footer: {
