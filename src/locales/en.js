@@ -40,7 +40,7 @@ export default {
         btnLinuxDebian: "Download DEB Package",
         btnLinuxRPM: "Download RPM Package",
         btnLinuxAUR: "Install from AUR Helper",
-        aurCommand: "paru -S micyou-bin",
+
         aurCommandCopied: "Command copied to clipboard!",
         loading: "Loading...",
         androidApp: "Android App",

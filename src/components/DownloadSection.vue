@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import Button from './Button.vue'
 
 const { t } = useI18n()
+const AUR_COMMAND = 'paru -S micyou-bin'
 const exeDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const zipDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
 const debDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
@@ -14,9 +15,8 @@ const isLoading = ref(true)
 const aurMessage = ref('')
 
 const copyAurCommand = async () => {
-  const command = t('download.aurCommand')
   try {
-    await navigator.clipboard.writeText(command)
+    await navigator.clipboard.writeText(AUR_COMMAND)
     aurMessage.value = t('download.aurCommandCopied')
     setTimeout(() => {
       aurMessage.value = ''
