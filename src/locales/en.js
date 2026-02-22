@@ -31,19 +31,18 @@ export default {
     download: {
         title: "Get Started with MicYou",
         subtitle: "Download the app on your phone and the client on your PC to start streaming high-quality audio.",
-        winClient: "Windows Client",
+        winClient: "Windows",
         winReq: "Requires Windows 10 or later.",
         btnWinDownload: "Download Executable",
         btnWinZip: "Download Portable",
-        linuxClient: "Linux Client",
+        linuxClient: "Linux (Experimental)",
         linuxReq: "Requires compatible distro.",
         btnLinuxDebian: "Download DEB Package",
         btnLinuxRPM: "Download RPM Package",
         btnLinuxAUR: "Install from AUR Helper",
-
         aurCommandCopied: "Copied",
         loading: "Loading...",
-        androidApp: "Android App",
+        androidApp: "Android",
         androidReq: "Requires Android 8.0 or later.",
         btnApk: "Download APK",
         bit64: "64-bit"
