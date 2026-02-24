@@ -37,6 +37,8 @@ export default {
 		subtitle: "手机安装 App，电脑运行客户端，分秒间开启无线高音质体验",
 		winClient: "Windows",
 		winReq: "系统要求 Windows 10 及以上",
+		macClient: "macOS（实验性支持）",
+		macReq: "系统要求 macOS 10.15 及以上",
 		btnWinDownload: "下载可执行文件",
 		btnWinZip: "下载便携版",
 		linuxClient: "Linux（实验性支持）",

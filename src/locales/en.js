@@ -42,6 +42,8 @@ export default {
 			"Download the app on your phone and the client on your PC to start streaming high-quality audio.",
 		winClient: "Windows",
 		winReq: "Requires Windows 10 or later.",
+		macClient: "macOS(experimental)",
+		macReq: "Requires macOS 10.15 or later.",
 		btnWinDownload: "Download Executable",
 		btnWinZip: "Download Portable",
 		linuxClient: "Linux (Experimental)",

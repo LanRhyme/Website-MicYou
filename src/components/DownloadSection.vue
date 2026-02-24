@@ -20,6 +20,12 @@ const rpmDownloadUrl = ref(
 const apkDownloadUrl = ref(
 	"https://github.com/LanRhyme/MicYou/releases/latest",
 );
+const dmgArmDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const dmgX64DownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
 const releaseVersion = ref("Latest");
 const isLoading = ref(true);
 const aurMessage = ref("");
@@ -53,8 +59,20 @@ const fetchReleaseData = async () => {
 		const zipAsset = data.assets.find((asset) => asset.name.endsWith(".zip"));
 		const debAsset = data.assets.find((asset) => asset.name.endsWith(".deb"));
 		const rpmAsset = data.assets.find((asset) => asset.name.endsWith(".rpm"));
-
 		const releasePage = data.html_url;
+		const dmgAnyAsset = data.assets.find((asset) =>
+			asset.name.endsWith(".dmg"),
+		);
+		const dmgArmAsset = data.assets.find(
+			(asset) =>
+				asset.name.endsWith(".dmg") &&
+				/arm|aarch|apple-silcon|apple-silicon|universal/i.test(asset.name),
+		);
+		const dmgX64Asset = data.assets.find(
+			(asset) =>
+				asset.name.endsWith(".dmg") &&
+				/x64|x86_64|intel|x86-64/i.test(asset.name),
+		);
 
 		if (exeAsset) {
 			exeDownloadUrl.value = exeAsset.browser_download_url;
@@ -84,6 +102,22 @@ const fetchReleaseData = async () => {
 			rpmDownloadUrl.value = rpmAsset.browser_download_url;
 		} else {
 			rpmDownloadUrl.value = releasePage;
+		}
+
+		if (dmgArmAsset) {
+			dmgArmDownloadUrl.value = dmgArmAsset.browser_download_url;
+		} else if (dmgAnyAsset && !dmgX64Asset) {
+			dmgArmDownloadUrl.value = dmgAnyAsset.browser_download_url;
+		} else {
+			dmgArmDownloadUrl.value = releasePage;
+		}
+
+		if (dmgX64Asset) {
+			dmgX64DownloadUrl.value = dmgX64Asset.browser_download_url;
+		} else if (dmgAnyAsset && !dmgArmAsset) {
+			dmgX64DownloadUrl.value = dmgAnyAsset.browser_download_url;
+		} else {
+			dmgX64DownloadUrl.value = releasePage;
 		}
 	} catch (error) {
 		console.error("Error fetching release data", error);
@@ -143,6 +177,20 @@ onMounted(() => {
           <div class="version-info">{{ releaseVersion }}</div>
         </div>
 
+          <!-- Mac Card -->
+          <div class="download-card">
+           <div class="platform-icon">
+             <span class="material-symbols-rounded">laptop_mac</span>
+           </div>
+           <h3 class="platform-name">{{ $t('download.macClient') }}</h3>
+           <p class="platform-desc">{{ $t('download.macReq') }}</p>
+           <div class="store-buttons">
+             <Button variant="filled" :label="`macOS (Apple Silicon)`" icon="download" :href="dmgArmDownloadUrl" />
+             <Button variant="filled" :label="`macOS (Intel x64)`" icon="download" :href="dmgX64DownloadUrl" />
+           </div>
+           <div class="version-info">{{ releaseVersion }}</div>
+          </div>
+
         <!-- Linux Card -->
         <div class="download-card">
           <div class="platform-icon">
@@ -197,7 +245,7 @@ onMounted(() => {
 
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   justify-content: center;
 }
