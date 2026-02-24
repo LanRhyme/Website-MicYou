@@ -1,40 +1,40 @@
 <script setup>
-import { useI18n } from 'vue-i18n'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from "vue-i18n";
+import { ref, onMounted, onUnmounted } from "vue";
 
-const { locale } = useI18n()
-const isOpen = ref(false)
-const dropdownRef = ref(null)
+const { locale } = useI18n();
+const isOpen = ref(false);
+const dropdownRef = ref(null);
 
 const languages = [
-  { code: 'en', label: 'English', icon: 'language' }, // or flag emoji? stick to icon for MD3
-  { code: 'zh', label: '简体中文', icon: 'translate' }
-]
+	{ code: "en", label: "English", icon: "language" }, // or flag emoji? stick to icon for MD3
+	{ code: "zh", label: "简体中文", icon: "translate" },
+];
 
 const toggleDropdown = () => {
-  isOpen.value = !isOpen.value
-}
+	isOpen.value = !isOpen.value;
+};
 
 const selectLanguage = (code) => {
-  locale.value = code
-  isOpen.value = false
-  // Optional: Save to localStorage if we want persistence
-  // localStorage.setItem('user-locale', code) 
-}
+	locale.value = code;
+	isOpen.value = false;
+	// Optional: Save to localStorage if we want persistence
+	// localStorage.setItem('user-locale', code)
+};
 
 const handleClickOutside = (event) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false
-  }
-}
+	if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+		isOpen.value = false;
+	}
+};
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+	document.addEventListener("click", handleClickOutside);
+});
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+	document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>

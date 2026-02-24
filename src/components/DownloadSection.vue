@@ -1,87 +1,100 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import Button from './Button.vue'
+import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import Button from "./Button.vue";
 
-const { t } = useI18n()
-const AUR_COMMAND = 'paru -S micyou-bin'
-const exeDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const zipDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const debDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const rpmDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const apkDownloadUrl = ref('https://github.com/LanRhyme/MicYou/releases/latest')
-const releaseVersion = ref('Latest')
-const isLoading = ref(true)
-const aurMessage = ref('')
+const { t } = useI18n();
+const AUR_COMMAND = "paru -S micyou-bin";
+const exeDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const zipDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const debDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const rpmDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const apkDownloadUrl = ref(
+	"https://github.com/LanRhyme/MicYou/releases/latest",
+);
+const releaseVersion = ref("Latest");
+const isLoading = ref(true);
+const aurMessage = ref("");
 
 const copyAurCommand = async () => {
-  try {
-    await navigator.clipboard.writeText(AUR_COMMAND)
-    aurMessage.value = t('download.aurCommandCopied')
-    setTimeout(() => {
-      aurMessage.value = ''
-    }, 3000)
-  } catch (err) {
-    console.error('Failed to copy:', err)
-  }
-}
+	try {
+		await navigator.clipboard.writeText(AUR_COMMAND);
+		aurMessage.value = t("download.aurCommandCopied");
+		setTimeout(() => {
+			aurMessage.value = "";
+		}, 3000);
+	} catch (err) {
+		console.error("Failed to copy:", err);
+	}
+};
 
 const fetchReleaseData = async () => {
-  try {
-    const response = await fetch('https://api.github.com/repos/LanRhyme/MicYou/releases/latest')
-    if (!response.ok) throw new Error('Failed to fetch')
-    
-    const data = await response.json()
-    releaseVersion.value = data.tag_name
-    
-    const apkAsset = data.assets.find(asset => asset.name.endsWith('.apk'))
-    const exeAsset = data.assets.find(asset => asset.name.endsWith('.exe') || asset.name.endsWith('.msi'))
-    const zipAsset = data.assets.find(asset => asset.name.endsWith('.zip'))
-    const debAsset = data.assets.find(asset => asset.name.endsWith('.deb'))
-    const rpmAsset = data.assets.find(asset => asset.name.endsWith('.rpm')) 
-    
-    const releasePage = data.html_url
+	try {
+		const response = await fetch(
+			"https://api.github.com/repos/LanRhyme/MicYou/releases/latest",
+		);
+		if (!response.ok) throw new Error("Failed to fetch");
 
-    if (exeAsset) {
-        exeDownloadUrl.value = exeAsset.browser_download_url
-    } else {
-        exeDownloadUrl.value = releasePage
-    }
+		const data = await response.json();
+		releaseVersion.value = data.tag_name;
 
-    if (zipAsset) {
-        zipDownloadUrl.value = zipAsset.browser_download_url
-    } else {
-        zipDownloadUrl.value = releasePage
-    }
+		const apkAsset = data.assets.find((asset) => asset.name.endsWith(".apk"));
+		const exeAsset = data.assets.find(
+			(asset) => asset.name.endsWith(".exe") || asset.name.endsWith(".msi"),
+		);
+		const zipAsset = data.assets.find((asset) => asset.name.endsWith(".zip"));
+		const debAsset = data.assets.find((asset) => asset.name.endsWith(".deb"));
+		const rpmAsset = data.assets.find((asset) => asset.name.endsWith(".rpm"));
 
-    if (apkAsset) {
-        apkDownloadUrl.value = apkAsset.browser_download_url
-    } else {
-        apkDownloadUrl.value = releasePage
-    }
-    
-    if (debAsset) {
-        debDownloadUrl.value = debAsset.browser_download_url
-    } else {
-        debDownloadUrl.value = releasePage
-    } 
+		const releasePage = data.html_url;
 
-    if (rpmAsset) {
-        rpmDownloadUrl.value = rpmAsset.browser_download_url
-    } else {
-        rpmDownloadUrl.value = releasePage
-    }
-    
-  } catch (error) {
-    console.error('Error fetching release data', error)
-  } finally {
-    isLoading.value = false
-  }
-}
+		if (exeAsset) {
+			exeDownloadUrl.value = exeAsset.browser_download_url;
+		} else {
+			exeDownloadUrl.value = releasePage;
+		}
+
+		if (zipAsset) {
+			zipDownloadUrl.value = zipAsset.browser_download_url;
+		} else {
+			zipDownloadUrl.value = releasePage;
+		}
+
+		if (apkAsset) {
+			apkDownloadUrl.value = apkAsset.browser_download_url;
+		} else {
+			apkDownloadUrl.value = releasePage;
+		}
+
+		if (debAsset) {
+			debDownloadUrl.value = debAsset.browser_download_url;
+		} else {
+			debDownloadUrl.value = releasePage;
+		}
+
+		if (rpmAsset) {
+			rpmDownloadUrl.value = rpmAsset.browser_download_url;
+		} else {
+			rpmDownloadUrl.value = releasePage;
+		}
+	} catch (error) {
+		console.error("Error fetching release data", error);
+	} finally {
+		isLoading.value = false;
+	}
+};
 
 onMounted(() => {
-  fetchReleaseData()
-})
+	fetchReleaseData();
+});
 </script>
 
 <template>

@@ -1,9 +1,9 @@
 <script setup>
-import NavBar from './components/NavBar.vue'
-import HeroSection from './components/HeroSection.vue'
-import FeaturesSection from './components/FeaturesSection.vue'
-import DownloadSection from './components/DownloadSection.vue'
-import Footer from './components/Footer.vue'
+import NavBar from "./components/NavBar.vue";
+import HeroSection from "./components/HeroSection.vue";
+import FeaturesSection from "./components/FeaturesSection.vue";
+import DownloadSection from "./components/DownloadSection.vue";
+import Footer from "./components/Footer.vue";
 </script>
 
 <template>

@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "biome check .",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "vue": "^3.5.25",
     "vue-i18n": "^11.2.8"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.4",
     "@vitejs/plugin-vue": "^6.0.2",
     "vite": "^7.3.1"
   }

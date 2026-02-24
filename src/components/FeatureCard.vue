@@ -1,10 +1,10 @@
 <script setup>
 defineProps({
-  icon: String,
-  title: String,
-  description: String,
-  delay: Number // for animation stagger
-})
+	icon: String,
+	title: String,
+	description: String,
+	delay: Number, // for animation stagger
+});
 </script>
 
 <template>

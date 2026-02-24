@@ -1,18 +1,19 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from "vue";
 
 const props = defineProps({
-  variant: {
-    type: String,
-    default: 'filled', // filled, tonal, outlined, text
-    validator: (value) => ['filled', 'tonal', 'outlined', 'text'].includes(value)
-  },
-  icon: String,
-  label: String,
-  href: String
-})
+	variant: {
+		type: String,
+		default: "filled", // filled, tonal, outlined, text
+		validator: (value) =>
+			["filled", "tonal", "outlined", "text"].includes(value),
+	},
+	icon: String,
+	label: String,
+	href: String,
+});
 
-const componentTag = computed(() => props.href ? 'a' : 'button')
+const componentTag = computed(() => (props.href ? "a" : "button"));
 </script>
 
 <template>

@@ -1,42 +1,42 @@
 <script setup>
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import FeatureCard from './FeatureCard.vue'
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import FeatureCard from "./FeatureCard.vue";
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 const features = computed(() => [
-  {
-    icon: 'speed',
-    title: t('features.latencyTitle'),
-    description: t('features.latencyDesc')
-  },
-  {
-    icon: 'mic_external_on',
-    title: t('features.qualityTitle'),
-    description: t('features.qualityDesc')
-  },
-  {
-    icon: 'wifi_tethering',
-    title: t('features.connectionTitle'),
-    description: t('features.connectionDesc')
-  },
-  {
-    icon: 'devices',
-    title: t('features.crossPlayTitle'),
-    description: t('features.crossPlayDesc')
-  },
-  {
-    icon: 'settings_input_component',
-    title: t('features.setupTitle'),
-    description: t('features.setupDesc')
-  },
-  {
-    icon: 'security',
-    title: t('features.privacyTitle'),
-    description: t('features.privacyDesc')
-  }
-])
+	{
+		icon: "speed",
+		title: t("features.latencyTitle"),
+		description: t("features.latencyDesc"),
+	},
+	{
+		icon: "mic_external_on",
+		title: t("features.qualityTitle"),
+		description: t("features.qualityDesc"),
+	},
+	{
+		icon: "wifi_tethering",
+		title: t("features.connectionTitle"),
+		description: t("features.connectionDesc"),
+	},
+	{
+		icon: "devices",
+		title: t("features.crossPlayTitle"),
+		description: t("features.crossPlayDesc"),
+	},
+	{
+		icon: "settings_input_component",
+		title: t("features.setupTitle"),
+		description: t("features.setupDesc"),
+	},
+	{
+		icon: "security",
+		title: t("features.privacyTitle"),
+		description: t("features.privacyDesc"),
+	},
+]);
 </script>
 
 <template>

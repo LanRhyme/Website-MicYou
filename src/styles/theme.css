@@ -1,90 +1,93 @@
 :root {
-    /* Color Palette - Blue Theme */
-    --md-sys-color-primary: #A8C7FA;
-    --md-sys-color-on-primary: #003062;
-    --md-sys-color-primary-container: #004786;
-    --md-sys-color-on-primary-container: #D6E3FF;
+	/* Color Palette - Blue Theme */
+	--md-sys-color-primary: #a8c7fa;
+	--md-sys-color-on-primary: #003062;
+	--md-sys-color-primary-container: #004786;
+	--md-sys-color-on-primary-container: #d6e3ff;
 
-    --md-sys-color-secondary: #BFCCE3;
-    --md-sys-color-on-secondary: #293141;
-    --md-sys-color-secondary-container: #404859;
-    --md-sys-color-on-secondary-container: #DBE4F9;
+	--md-sys-color-secondary: #bfcce3;
+	--md-sys-color-on-secondary: #293141;
+	--md-sys-color-secondary-container: #404859;
+	--md-sys-color-on-secondary-container: #dbe4f9;
 
-    --md-sys-color-tertiary: #DAC3F6;
-    --md-sys-color-on-tertiary: #402859;
-    --md-sys-color-tertiary-container: #583F72;
-    --md-sys-color-on-tertiary-container: #F1DBFF;
+	--md-sys-color-tertiary: #dac3f6;
+	--md-sys-color-on-tertiary: #402859;
+	--md-sys-color-tertiary-container: #583f72;
+	--md-sys-color-on-tertiary-container: #f1dbff;
 
-    --md-sys-color-error: #FFB4AB;
-    --md-sys-color-on-error: #690005;
-    --md-sys-color-error-container: #93000A;
-    --md-sys-color-on-error-container: #FFDAD6;
+	--md-sys-color-error: #ffb4ab;
+	--md-sys-color-on-error: #690005;
+	--md-sys-color-error-container: #93000a;
+	--md-sys-color-on-error-container: #ffdad6;
 
-    --md-sys-color-background: #1A1C1E;
-    --md-sys-color-on-background: #E2E2E6;
-    --md-sys-color-surface: #1A1C1E;
-    --md-sys-color-on-surface: #E2E2E6;
+	--md-sys-color-background: #1a1c1e;
+	--md-sys-color-on-background: #e2e2e6;
+	--md-sys-color-surface: #1a1c1e;
+	--md-sys-color-on-surface: #e2e2e6;
 
-    --md-sys-color-surface-variant: #43474E;
-    --md-sys-color-on-surface-variant: #C3C7CF;
-    --md-sys-color-outline: #8D9199;
+	--md-sys-color-surface-variant: #43474e;
+	--md-sys-color-on-surface-variant: #c3c7cf;
+	--md-sys-color-outline: #8d9199;
 
-    /* Elevation */
-    --md-sys-elevation-level1: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-    --md-sys-elevation-level2: 0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
-    --md-sys-elevation-level3: 0px 1px 3px rgba(0, 0, 0, 0.3), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+	/* Elevation */
+	--md-sys-elevation-level1:
+		0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	--md-sys-elevation-level2:
+		0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+	--md-sys-elevation-level3:
+		0px 1px 3px rgba(0, 0, 0, 0.3), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
 
-    /* Typography */
-    --md-sys-typescale-display-large: 400 57px/64px 'Roboto', sans-serif;
-    --md-sys-typescale-display-medium: 400 45px/52px 'Roboto', sans-serif;
-    --md-sys-typescale-display-small: 400 36px/44px 'Roboto', sans-serif;
+	/* Typography */
+	--md-sys-typescale-display-large: 400 57px / 64px "Roboto", sans-serif;
+	--md-sys-typescale-display-medium: 400 45px / 52px "Roboto", sans-serif;
+	--md-sys-typescale-display-small: 400 36px / 44px "Roboto", sans-serif;
 
-    --md-sys-typescale-headline-large: 400 32px/40px 'Roboto', sans-serif;
-    --md-sys-typescale-headline-medium: 400 28px/36px 'Roboto', sans-serif;
-    --md-sys-typescale-headline-small: 400 24px/32px 'Roboto', sans-serif;
+	--md-sys-typescale-headline-large: 400 32px / 40px "Roboto", sans-serif;
+	--md-sys-typescale-headline-medium: 400 28px / 36px "Roboto", sans-serif;
+	--md-sys-typescale-headline-small: 400 24px / 32px "Roboto", sans-serif;
 
-    --md-sys-typescale-title-large: 400 22px/28px 'Roboto', sans-serif;
-    --md-sys-typescale-title-medium: 500 16px/24px 'Roboto', sans-serif;
-    --md-sys-typescale-title-small: 500 14px/20px 'Roboto', sans-serif;
+	--md-sys-typescale-title-large: 400 22px / 28px "Roboto", sans-serif;
+	--md-sys-typescale-title-medium: 500 16px / 24px "Roboto", sans-serif;
+	--md-sys-typescale-title-small: 500 14px / 20px "Roboto", sans-serif;
 
-    --md-sys-typescale-label-large: 500 14px/20px 'Roboto', sans-serif;
-    --md-sys-typescale-label-medium: 500 12px/16px 'Roboto', sans-serif;
-    --md-sys-typescale-label-small: 500 11px/16px 'Roboto', sans-serif;
+	--md-sys-typescale-label-large: 500 14px / 20px "Roboto", sans-serif;
+	--md-sys-typescale-label-medium: 500 12px / 16px "Roboto", sans-serif;
+	--md-sys-typescale-label-small: 500 11px / 16px "Roboto", sans-serif;
 
-    --md-sys-typescale-body-large: 400 16px/24px 'Roboto', sans-serif;
-    --md-sys-typescale-body-medium: 400 14px/20px 'Roboto', sans-serif;
-    --md-sys-typescale-body-small: 400 12px/16px 'Roboto', sans-serif;
+	--md-sys-typescale-body-large: 400 16px / 24px "Roboto", sans-serif;
+	--md-sys-typescale-body-medium: 400 14px / 20px "Roboto", sans-serif;
+	--md-sys-typescale-body-small: 400 12px / 16px "Roboto", sans-serif;
 
-    /* Shapes */
-    --md-sys-shape-corner-extra-small: 4px;
-    --md-sys-shape-corner-small: 8px;
-    --md-sys-shape-corner-medium: 12px;
-    --md-sys-shape-corner-large: 16px;
-    --md-sys-shape-corner-extra-large: 28px;
-    --md-sys-shape-corner-full: 9999px;
-    /* Pill */
+	/* Shapes */
+	--md-sys-shape-corner-extra-small: 4px;
+	--md-sys-shape-corner-small: 8px;
+	--md-sys-shape-corner-medium: 12px;
+	--md-sys-shape-corner-large: 16px;
+	--md-sys-shape-corner-extra-large: 28px;
+	--md-sys-shape-corner-full: 9999px;
+	/* Pill */
 }
 
 @media (prefers-color-scheme: light) {
-    /* Consider implementing light theme if needed in the future */
+	/* Consider implementing light theme if needed in the future */
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--md-sys-color-background);
-    color: var(--md-sys-color-on-background);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    line-height: 1.5;
+	font-family: "Roboto", sans-serif;
+	background-color: var(--md-sys-color-background);
+	color: var(--md-sys-color-on-background);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	line-height: 1.5;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
