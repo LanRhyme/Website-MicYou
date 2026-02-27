@@ -42,7 +42,7 @@ export default {
 		macReq: "系统要求 macOS 10.15 及以上",
 		btnWinDownload: "下载可执行文件",
 		btnWinZip: "下载便携版",
-		linuxClient: "Linux（实验性支持）",
+		linuxClient: "Linux",
 		linuxReq: "系统要求 兼容发行版",
 		btnLinuxDebian: "下载 DEB 包",
 		btnLinuxRPM: "下载 RPM 包",
