@@ -47,7 +47,7 @@ export default {
 		macReq: "Requires macOS 10.15 or later.",
 		btnWinDownload: "Download Executable",
 		btnWinZip: "Download Portable",
-		linuxClient: "Linux (Experimental)",
+		linuxClient: "Linux",
 		linuxReq: "Requires compatible distro.",
 		btnLinuxDebian: "Download DEB Package",
 		btnLinuxRPM: "Download RPM Package",
