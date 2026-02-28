@@ -1,9 +1,9 @@
 [build]
-  command = "npm run build"
+  command = "pnpm build"
   publish = "dist"
 
 [context.production]
-  environment = { NODE_VERSION = "20" }
+  environment = { NODE_VERSION = "24" }
 
 [[redirects]]
   from = "/*"
