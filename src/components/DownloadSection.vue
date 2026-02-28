@@ -77,7 +77,7 @@ const fetchReleaseData = async () => {
 		const dmgArmAsset = data.assets.find(
 			(asset: { name: string }) =>
 				asset.name.endsWith(".dmg") &&
-				/arm|aarch|apple-silcon|apple-silicon|universal/i.test(asset.name),
+				/arm|aarch|apple-silicon|universal/i.test(asset.name),
 		);
 		const dmgX64Asset = data.assets.find(
 			(asset: { name: string }) =>
