@@ -54,6 +54,16 @@ export default {
 		btnApk: "下载 APK 安装包",
 		bit64: "64 位",
 	},
+	contributors: {
+		title: "我们的贡献者",
+		subtitle: "感谢以下贡献者，TA 们让 MicYou 更完美。",
+		loading: "正在加载贡献者...",
+		error: "加载贡献者失败",
+		unexpectedResponse: "服务器返回了意外的响应",
+		retry: "重试",
+		contributions: "次贡献",
+		authorBadge: "作者",
+	},
 	footer: {
 		privacy: "隐私政策",
 		terms: "服务条款",
