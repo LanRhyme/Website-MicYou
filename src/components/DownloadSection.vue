@@ -1,7 +1,6 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import Button from "./Button.vue";
 import { detectDevice } from "../utils/device";
 
 const { t } = useI18n();
@@ -135,7 +134,8 @@ onMounted(() => {
 onMounted(() => {
 	try {
 		recommendedPlatform.value = detectDevice();
-	} catch (e) {
+	} catch (error) {
+		console.error("Error detecting device:", error);
 		recommendedPlatform.value = "unknown";
 	}
 });
@@ -262,6 +262,8 @@ onMounted(() => {
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   justify-content: center;
+  /* 让每一行自动拉伸为相同高度，确保网格项等高 */
+  grid-auto-rows: 1fr;
 }
 
 .download-card {
@@ -276,6 +278,8 @@ onMounted(() => {
   transition: transform 280ms cubic-bezier(.2,.9,.3,1), box-shadow 240ms ease;
   backdrop-filter: blur(6px) saturate(120%);
   box-shadow: var(--md-sys-elevation-level1);
+  /* 充满所在网格单元高度，配合 grid-auto-rows: 1fr 使用 */
+  height: 100%;
 }
 
 .download-card:hover {
@@ -370,6 +374,8 @@ onMounted(() => {
 }
 
 .version-info {
+  /* 将版本信息推到底部，保证卡片内部元素分布一致 */
+  margin-top: auto;
   margin-top: 16px;
   font-size: 12px;
   color: var(--md-sys-color-outline);

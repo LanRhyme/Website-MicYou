@@ -11,12 +11,12 @@
 		"format": "biome format --write ."
 	},
 	"dependencies": {
-		"vue": "^3.5.25",
+		"vue": "^3.5.29",
 		"vue-i18n": "^11.2.8"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.4",
-		"@vitejs/plugin-vue": "^6.0.2",
+		"@vitejs/plugin-vue": "^6.0.4",
 		"vite": "^7.3.1"
 	}
 }
