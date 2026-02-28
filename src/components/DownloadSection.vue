@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import Button from "./Button.vue";
 import { detectDevice } from "../utils/device";
 
 const { t } = useI18n();
