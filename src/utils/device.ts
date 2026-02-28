@@ -29,14 +29,21 @@ export function detectDevice(): DeviceType {
 	const isMac = /Mac/i.test(platform) || /Macintosh/i.test(ua);
 	const isLinux = /Linux/i.test(platform) && !isAndroid;
 
-	if (isAndroid) return "android";
-	if (isIOS) return "ios";
-	if (isWindows) return "windows";
+	const logAndReturn = (d: DeviceType) => {
+		if (typeof console !== "undefined" && console.info) {
+			console.info("[detectDevice] detected:", d);
+		}
+		return d;
+	};
+
+	if (isAndroid) return logAndReturn("android");
+	if (isIOS) return logAndReturn("ios");
+	if (isWindows) return logAndReturn("windows");
 
 	if (isMac) {
 		// Prefer architecture from userAgentData when available
 		if (uaData?.architecture) {
-			return /arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64";
+			return logAndReturn(/arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64");
 		}
 
 		// Fallback: try to read the WebGL renderer string which may include "Apple M1/M2" on Apple Silicon
@@ -51,11 +58,10 @@ export function detectDevice(): DeviceType {
 					const renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) as string;
 					if (renderer && /Apple/i.test(renderer)) {
 						if (/M\s?1|M1|M2|M3|Apple Silicon|Apple-?Silicon|ARM/i.test(renderer)) {
-							return "mac_arm";
+							return logAndReturn("mac_arm");
 						}
-						// if renderer mentions Apple but not M1/M2, still prefer arm if "Apple" appears with arm-like tokens
 						if (/Apple/.test(renderer) && /ARM|AARCH/i.test(renderer)) {
-							return "mac_arm";
+							return logAndReturn("mac_arm");
 						}
 					}
 				}
@@ -66,15 +72,15 @@ export function detectDevice(): DeviceType {
 
 		// Last-resort UA heuristics (rarely correct for Apple Silicon because many UAs still show Intel)
 		if (/arm|aarch64|Apple Silicon|AppleSilicon|Apple-Silicon/i.test(ua)) {
-			return "mac_arm";
+			return logAndReturn("mac_arm");
 		}
 
-		return "mac_x64";
+		return logAndReturn("mac_x64");
 	}
 
-	if (isLinux) return "linux";
+	if (isLinux) return logAndReturn("linux");
 
-	return "unknown";
+	return logAndReturn("unknown");
 }
 
 export function isMobileDevice(): boolean {
