@@ -61,9 +61,12 @@ export default {
 	},
 	contributors: {
 		title: "Our Contributors",
-		subtitle: "Thanks to the following contributors, who made MicYou more perfect.",
+		subtitle:
+			"Thanks to the following contributors, who made MicYou more perfect.",
 		loading: "Loading contributors...",
 		error: "Failed to load contributors",
+		unexpectedResponse: "Unexpected response from server",
+		retry: "Retry",
 		contributions: "contributions",
 		authorBadge: "Author",
 	},

@@ -1,28 +1,46 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 
-const { t } = useI18n()
-const contributors = ref([])
-const loading = ref(true)
-const error = ref('')
+const { t } = useI18n();
+const contributors = ref([]);
+const loading = ref(true);
+const error = ref("");
 
-onMounted(async () => {
-  try {
-    const res = await fetch('https://api.github.com/repos/LanRhyme/MicYou/contributors?per_page=1000')
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = await res.json()
-    contributors.value = data
-      .filter(c => c.type === 'User' && !c.login.toLowerCase().includes('bot'))
-      .sort((a, b) => b.contributions - a.contributions)
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-})
+const fetchContributors = async () => {
+	loading.value = true;
+	error.value = "";
+	try {
+		const res = await fetch(
+			"https://api.github.com/repos/LanRhyme/MicYou/contributors?per_page=100",
+		);
+		if (!res.ok) throw new Error(`HTTP ${res.status}`);
+		const data = await res.json();
+		if (!Array.isArray(data)) {
+			throw new Error(t("contributors.unexpectedResponse"));
+		}
+		contributors.value = data
+			.filter(
+				(c) => c.type === "User" && !c.login.toLowerCase().includes("bot"),
+			)
+			.sort((a, b) => b.contributions - a.contributions);
+	} catch (err) {
+		console.error('Failed to load contributors:', err);
+		error.value = t("contributors.error");
+	} finally {
+		loading.value = false;
+	}
+};
 
-const isAuthor = login => ['LanRhyme', 'ChinsaaWei'].includes(login)
+const retry = () => {
+	fetchContributors();
+};
+
+onMounted(() => {
+	fetchContributors();
+});
+
+const isAuthor = (login) => ["LanRhyme", "ChinsaaWei"].includes(login);
 </script>
 
 <template>
@@ -31,7 +49,7 @@ const isAuthor = login => ['LanRhyme', 'ChinsaaWei'].includes(login)
     <p class="subtitle">{{ t('contributors.subtitle') }}</p>
 
     <div v-if="loading" class="loading">{{ t('contributors.loading') }}</div>
-    <div v-else-if="error" class="error">{{ t('contributors.error') }}: {{ error }}</div>
+    <div v-else-if="error" class="error">{{ t('contributors.error') }}<button @click="retry" class="retry-btn">{{ t('contributors.retry') }}</button></div>
     <div v-else class="grid">
       <a
         v-for="c in contributors"
@@ -139,5 +157,21 @@ h2 {
 .contribs {
   font: var(--md-sys-typescale-body-small);
   color: var(--md-sys-color-on-surface-variant);
+}
+
+.retry-btn {
+  margin-left: 12px;
+  padding: 6px 12px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border: none;
+  border-radius: var(--md-sys-shape-corner-small);
+  font: var(--md-sys-typescale-label-medium);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.retry-btn:hover {
+  background: color-mix(in srgb, var(--md-sys-color-primary), white 10%);
 }
 </style>
