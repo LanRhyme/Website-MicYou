@@ -43,7 +43,9 @@ export function detectDevice(): DeviceType {
 	if (isMac) {
 		// Prefer architecture from userAgentData when available
 		if (uaData?.architecture) {
-			return logAndReturn(/arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64");
+			return logAndReturn(
+				/arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64",
+			);
 		}
 
 		// Fallback: try to read the WebGL renderer string which may include "Apple M1/M2" on Apple Silicon
@@ -55,9 +57,13 @@ export function detectDevice(): DeviceType {
 			if (gl) {
 				const dbg = gl.getExtension("WEBGL_debug_renderer_info");
 				if (dbg) {
-					const renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) as string;
+					const renderer = gl.getParameter(
+						dbg.UNMASKED_RENDERER_WEBGL,
+					) as string;
 					if (renderer && /Apple/i.test(renderer)) {
-						if (/M\s?1|M1|M2|M3|Apple Silicon|Apple-?Silicon|ARM/i.test(renderer)) {
+						if (
+							/M\s?1|M1|M2|M3|Apple Silicon|Apple-?Silicon|ARM/i.test(renderer)
+						) {
 							return logAndReturn("mac_arm");
 						}
 						if (/Apple/.test(renderer) && /ARM|AARCH/i.test(renderer)) {
