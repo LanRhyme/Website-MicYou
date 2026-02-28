@@ -1,9 +1,27 @@
-export function detectDevice() {
+export type DeviceType =
+	| "android"
+	| "ios"
+	| "windows"
+	| "mac_arm"
+	| "mac_x64"
+	| "linux"
+	| "unknown";
+
+export function detectDevice(): DeviceType {
 	const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
 	const platform =
 		typeof navigator !== "undefined" ? navigator.platform || "" : "";
+	type NavigatorWithUAData = Navigator & {
+		userAgentData?: {
+			architecture?: string;
+			[k: string]: unknown;
+		};
+	};
+
 	const uaData =
-		typeof navigator !== "undefined" ? navigator.userAgentData || null : null;
+		typeof navigator !== "undefined"
+			? ((navigator as NavigatorWithUAData).userAgentData ?? null)
+			: null;
 
 	const isAndroid = /Android/i.test(ua);
 	const isIOS = /iPhone|iPad|iPod/i.test(ua);
@@ -16,7 +34,6 @@ export function detectDevice() {
 	if (isWindows) return "windows";
 
 	if (isMac) {
-		// try to detect Apple Silicon vs Intel
 		if (uaData?.architecture) {
 			return /arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64";
 		}
@@ -31,7 +48,7 @@ export function detectDevice() {
 	return "unknown";
 }
 
-export function isMobileDevice() {
+export function isMobileDevice(): boolean {
 	const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
 	return /Android|iPhone|iPad|iPod/i.test(ua);
 }

@@ -2,12 +2,18 @@ import { createI18n } from "vue-i18n";
 import en from "./locales/en";
 import zh from "./locales/zh";
 
-// Determine user's preferred language
-const userLang = navigator.language || navigator.userLanguage;
+type NavigatorWithUserLanguage = Navigator & { userLanguage?: string };
+
+const userLang =
+	typeof navigator !== "undefined"
+		? navigator.language ||
+			(navigator as NavigatorWithUserLanguage).userLanguage ||
+			"en"
+		: "en";
 const defaultLocale = userLang.startsWith("zh") ? "zh" : "en";
 
 const i18n = createI18n({
-	legacy: false, // Usage of Composition API
+	legacy: false,
 	locale: defaultLocale,
 	fallbackLocale: "en",
 	messages: {

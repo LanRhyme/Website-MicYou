@@ -25,7 +25,7 @@ const fetchContributors = async () => {
 			)
 			.sort((a, b) => b.contributions - a.contributions);
 	} catch (err) {
-		console.error('Failed to load contributors:', err);
+		console.error("Failed to load contributors:", err);
 		error.value = t("contributors.error");
 	} finally {
 		loading.value = false;

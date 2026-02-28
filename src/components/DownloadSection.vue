@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Button from "./Button.vue";
 import { useI18n } from "vue-i18n";
@@ -54,24 +54,33 @@ const fetchReleaseData = async () => {
 		const data = await response.json();
 		releaseVersion.value = data.tag_name;
 
-		const apkAsset = data.assets.find((asset) => asset.name.endsWith(".apk"));
-		const exeAsset = data.assets.find(
-			(asset) => asset.name.endsWith(".exe") || asset.name.endsWith(".msi"),
+		const apkAsset = data.assets.find((asset: { name: string }) =>
+			asset.name.endsWith(".apk"),
 		);
-		const zipAsset = data.assets.find((asset) => asset.name.endsWith(".zip"));
-		const debAsset = data.assets.find((asset) => asset.name.endsWith(".deb"));
-		const rpmAsset = data.assets.find((asset) => asset.name.endsWith(".rpm"));
+		const exeAsset = data.assets.find(
+			(asset: { name: string }) =>
+				asset.name.endsWith(".exe") || asset.name.endsWith(".msi"),
+		);
+		const zipAsset = data.assets.find((asset: { name: string }) =>
+			asset.name.endsWith(".zip"),
+		);
+		const debAsset = data.assets.find((asset: { name: string }) =>
+			asset.name.endsWith(".deb"),
+		);
+		const rpmAsset = data.assets.find((asset: { name: string }) =>
+			asset.name.endsWith(".rpm"),
+		);
 		const releasePage = data.html_url;
-		const dmgAnyAsset = data.assets.find((asset) =>
+		const dmgAnyAsset = data.assets.find((asset: { name: string }) =>
 			asset.name.endsWith(".dmg"),
 		);
 		const dmgArmAsset = data.assets.find(
-			(asset) =>
+			(asset: { name: string }) =>
 				asset.name.endsWith(".dmg") &&
 				/arm|aarch|apple-silcon|apple-silicon|universal/i.test(asset.name),
 		);
 		const dmgX64Asset = data.assets.find(
-			(asset) =>
+			(asset: { name: string }) =>
 				asset.name.endsWith(".dmg") &&
 				/x64|x86_64|intel|x86-64/i.test(asset.name),
 		);
