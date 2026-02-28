@@ -59,6 +59,14 @@ export default {
 		btnApk: "Download APK",
 		bit64: "64-bit",
 	},
+	contributors: {
+		title: "Our Contributors",
+		subtitle: "Thanks to the following contributors, who made MicYou more perfect.",
+		loading: "Loading contributors...",
+		error: "Failed to load contributors",
+		contributions: "contributions",
+		authorBadge: "Author",
+	},
 	footer: {
 		privacy: "Privacy Policy",
 		terms: "Terms of Service",
