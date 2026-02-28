@@ -4,6 +4,17 @@ import Button from "./Button.vue";
 import { useI18n } from "vue-i18n";
 import { detectDevice } from "../utils/device";
 
+type Asset = {
+	name: string;
+	browser_download_url: string;
+};
+
+type Release = {
+	tag_name: string;
+	assets: Asset[];
+	html_url: string;
+};
+
 const { t } = useI18n();
 const AUR_COMMAND = "paru -S micyou-bin";
 const exeDownloadUrl = ref(
@@ -51,36 +62,36 @@ const fetchReleaseData = async () => {
 		);
 		if (!response.ok) throw new Error("Failed to fetch");
 
-		const data = await response.json();
+		const data: Release = await response.json();
 		releaseVersion.value = data.tag_name;
 
-		const apkAsset = data.assets.find((asset: { name: string }) =>
+		const apkAsset = data.assets.find((asset: Asset) =>
 			asset.name.endsWith(".apk"),
 		);
 		const exeAsset = data.assets.find(
-			(asset: { name: string }) =>
+			(asset: Asset) =>
 				asset.name.endsWith(".exe") || asset.name.endsWith(".msi"),
 		);
-		const zipAsset = data.assets.find((asset: { name: string }) =>
+		const zipAsset = data.assets.find((asset: Asset) =>
 			asset.name.endsWith(".zip"),
 		);
-		const debAsset = data.assets.find((asset: { name: string }) =>
+		const debAsset = data.assets.find((asset: Asset) =>
 			asset.name.endsWith(".deb"),
 		);
-		const rpmAsset = data.assets.find((asset: { name: string }) =>
+		const rpmAsset = data.assets.find((asset: Asset) =>
 			asset.name.endsWith(".rpm"),
 		);
 		const releasePage = data.html_url;
-		const dmgAnyAsset = data.assets.find((asset: { name: string }) =>
+		const dmgAnyAsset = data.assets.find((asset: Asset) =>
 			asset.name.endsWith(".dmg"),
 		);
 		const dmgArmAsset = data.assets.find(
-			(asset: { name: string }) =>
+			(asset: Asset) =>
 				asset.name.endsWith(".dmg") &&
 				/arm|aarch|apple-silicon|universal/i.test(asset.name),
 		);
 		const dmgX64Asset = data.assets.find(
-			(asset: { name: string }) =>
+			(asset: Asset) =>
 				asset.name.endsWith(".dmg") &&
 				/x64|x86_64|intel|x86-64/i.test(asset.name),
 		);
