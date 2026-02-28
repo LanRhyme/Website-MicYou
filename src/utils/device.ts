@@ -34,12 +34,41 @@ export function detectDevice(): DeviceType {
 	if (isWindows) return "windows";
 
 	if (isMac) {
+		// Prefer architecture from userAgentData when available
 		if (uaData?.architecture) {
 			return /arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64";
 		}
+
+		// Fallback: try to read the WebGL renderer string which may include "Apple M1/M2" on Apple Silicon
+		try {
+			const canvas = document.createElement("canvas");
+			const gl =
+				(canvas.getContext("webgl") as WebGLRenderingContext) ||
+				(canvas.getContext("experimental-webgl") as WebGLRenderingContext);
+			if (gl) {
+				const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+				if (dbg) {
+					const renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) as string;
+					if (renderer && /Apple/i.test(renderer)) {
+						if (/M\s?1|M1|M2|M3|Apple Silicon|Apple-?Silicon|ARM/i.test(renderer)) {
+							return "mac_arm";
+						}
+						// if renderer mentions Apple but not M1/M2, still prefer arm if "Apple" appears with arm-like tokens
+						if (/Apple/.test(renderer) && /ARM|AARCH/i.test(renderer)) {
+							return "mac_arm";
+						}
+					}
+				}
+			}
+		} catch (e) {
+			// ignore errors and fall through to UA checks
+		}
+
+		// Last-resort UA heuristics (rarely correct for Apple Silicon because many UAs still show Intel)
 		if (/arm|aarch64|Apple Silicon|AppleSilicon|Apple-Silicon/i.test(ua)) {
 			return "mac_arm";
 		}
+
 		return "mac_x64";
 	}
 
