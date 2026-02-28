@@ -7,13 +7,14 @@ export type DeviceType =
 	| "linux"
 	| "unknown";
 
-export function detectDevice(): DeviceType {
+export async function detectDevice(): Promise<DeviceType> {
 	const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
 	const platform =
 		typeof navigator !== "undefined" ? navigator.platform || "" : "";
 	type NavigatorWithUAData = Navigator & {
 		userAgentData?: {
 			architecture?: string;
+			getHighEntropyValues?: (hints: string[]) => Promise<Record<string, unknown>>;
 			[k: string]: unknown;
 		};
 	};
@@ -22,6 +23,23 @@ export function detectDevice(): DeviceType {
 		typeof navigator !== "undefined"
 			? ((navigator as NavigatorWithUAData).userAgentData ?? null)
 			: null;
+
+	// Try to obtain a high-entropy `architecture` when available (Chrome/Edge)
+	let architecture: string | undefined = undefined;
+	if (uaData) {
+		if (typeof uaData.architecture === "string") {
+			architecture = uaData.architecture;
+		} else if (typeof uaData.getHighEntropyValues === "function") {
+			try {
+				const high = await uaData.getHighEntropyValues(["architecture"]);
+				architecture = (high as Record<string, unknown>)?.architecture as
+					| string
+					| undefined;
+			} catch (e) {
+				// ignore and fall back to other heuristics
+			}
+		}
+	}
 
 	const isAndroid = /Android/i.test(ua);
 	const isIOS = /iPhone|iPad|iPod/i.test(ua);
@@ -41,11 +59,9 @@ export function detectDevice(): DeviceType {
 	if (isWindows) return logAndReturn("windows");
 
 	if (isMac) {
-		// Prefer architecture from userAgentData when available
-		if (uaData?.architecture) {
-			return logAndReturn(
-				/arm|aarch/i.test(uaData.architecture) ? "mac_arm" : "mac_x64",
-			);
+		// Prefer architecture info obtained above when available
+		if (architecture) {
+			return logAndReturn(/arm|aarch/i.test(architecture) ? "mac_arm" : "mac_x64");
 		}
 
 		// Fallback: try to read the WebGL renderer string which may include "Apple M1/M2" on Apple Silicon

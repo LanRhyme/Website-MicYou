@@ -152,13 +152,13 @@ onMounted(() => {
 	fetchReleaseData();
 });
 
-onMounted(() => {
-	try {
-		recommendedPlatform.value = detectDevice();
-	} catch (error) {
-		console.error("Error detecting device:", error);
-		recommendedPlatform.value = "unknown";
-	}
+onMounted(async () => {
+  try {
+    recommendedPlatform.value = await detectDevice();
+  } catch (error) {
+    console.error("Error detecting device:", error);
+    recommendedPlatform.value = "unknown";
+  }
 });
 </script>
 
