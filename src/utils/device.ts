@@ -14,7 +14,9 @@ export async function detectDevice(): Promise<DeviceType> {
 	type NavigatorWithUAData = Navigator & {
 		userAgentData?: {
 			architecture?: string;
-			getHighEntropyValues?: (hints: string[]) => Promise<Record<string, unknown>>;
+			getHighEntropyValues?: (
+				hints: string[],
+			) => Promise<Record<string, unknown>>;
 			[k: string]: unknown;
 		};
 	};
@@ -61,7 +63,9 @@ export async function detectDevice(): Promise<DeviceType> {
 	if (isMac) {
 		// Prefer architecture info obtained above when available
 		if (architecture) {
-			return logAndReturn(/arm|aarch/i.test(architecture) ? "mac_arm" : "mac_x64");
+			return logAndReturn(
+				/arm|aarch/i.test(architecture) ? "mac_arm" : "mac_x64",
+			);
 		}
 
 		// Fallback: try to read the WebGL renderer string which may include "Apple M1/M2" on Apple Silicon
