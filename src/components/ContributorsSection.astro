@@ -59,28 +59,69 @@ const { t } = Astro.props;
 					) => b.contributions - a.contributions,
 				);
 
-			contentEl.innerHTML = `<div class="grid">${contributors
-				.map(
-					(c: {
-						html_url: string;
-						avatar_url: string;
-						login: string;
-						contributions: number;
-					}) => `
-				<a href="${c.html_url}" target="_blank" rel="noopener" class="card">
-					<img src="${c.avatar_url}" alt="${c.login}" class="avatar" loading="lazy" />
-					<div class="info">
-						<span class="name">${c.login}${AUTHORS.includes(c.login) ? `<span class="author-badge">${t.authorBadge}</span>` : ""}</span>
-						<span class="contribs">${c.contributions} ${t.contributions}</span>
-					</div>
-				</a>`,
-				)
-				.join("")}</div>`;
+			contentEl.textContent = "";
+			const grid = document.createElement("div");
+			grid.className = "grid";
+
+			contributors.forEach(
+				(c: {
+					html_url: string;
+					avatar_url: string;
+					login: string;
+					contributions: number;
+				}) => {
+					const card = document.createElement("a");
+					card.href = c.html_url;
+					card.target = "_blank";
+					card.rel = "noopener";
+					card.className = "card";
+
+					const avatar = document.createElement("img");
+					avatar.src = c.avatar_url;
+					avatar.alt = c.login;
+					avatar.className = "avatar";
+					avatar.loading = "lazy";
+
+					const info = document.createElement("div");
+					info.className = "info";
+
+					const nameSpan = document.createElement("span");
+					nameSpan.className = "name";
+					nameSpan.textContent = c.login;
+
+					if (AUTHORS.includes(c.login)) {
+						const authorBadge = document.createElement("span");
+						authorBadge.className = "author-badge";
+						authorBadge.textContent = t.authorBadge;
+						nameSpan.appendChild(authorBadge);
+					}
+
+					const contribsSpan = document.createElement("span");
+					contribsSpan.className = "contribs";
+					contribsSpan.textContent = `${c.contributions} ${t.contributions}`;
+
+					info.appendChild(nameSpan);
+					info.appendChild(contribsSpan);
+					card.appendChild(avatar);
+					card.appendChild(info);
+					grid.appendChild(card);
+				},
+			);
+
+			contentEl.appendChild(grid);
 		} catch {
-			contentEl.innerHTML = `<div class="error">${t.error}<md-filled-button class="retry-btn">${t.retry}</md-filled-button></div>`;
-			contentEl
-				.querySelector(".retry-btn")
-				?.addEventListener("click", fetchContributors);
+			contentEl.textContent = "";
+			const errorDiv = document.createElement("div");
+			errorDiv.className = "error";
+			errorDiv.textContent = t.error;
+
+			const retryButton = document.createElement("md-filled-button");
+			retryButton.className = "retry-btn";
+			retryButton.textContent = t.retry;
+			retryButton.addEventListener("click", fetchContributors);
+
+			errorDiv.appendChild(retryButton);
+			contentEl.appendChild(errorDiv);
 		}
 	}
 
