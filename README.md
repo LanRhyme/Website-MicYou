@@ -4,16 +4,19 @@ This is the official website for MicYou, a professional microphone streaming sof
 
 ## Technology Stack
 
-- **Framework**: Vue 3 + Vite
-- **Design System**: Custom implementation following Material Design 3 guidelines (Vanilla CSS + CSS Variables)
+- **Framework**: Astro 5
+- **Design System**: Material Design 3 guidelines (Vanilla CSS + CSS Variables)
+- **Tooling**: Biome (Linter & Formatter), TypeScript
+- **i18n**: Built-in support for English and Chinese
 - **Icons**: Google Material Symbols Rounded
 - **Fonts**: Roboto
 
 ## Features
 
-- **Responsive Implementation**: Works on desktop and mobile.
+- **Responsive Implementation**: Works seamlessly on desktop and mobile.
 - **Modern UI**: Dark mode by default, glassmorphism effects, smooth animations.
-- **Component-Based**: Reusable components for easy maintenance.
+- **Component-Based**: Reusable Astro components for easy maintenance.
+- **Internationalization (i18n)**: Multi-language support.
 
 ## Project Setup
 
@@ -29,10 +32,17 @@ pnpm install
 pnpm run dev
 ```
 
-### Format
+### Type Check & Linting
 
 ```sh
-pnpm format
+pnpm run type-check
+pnpm run lint
+```
+
+### Format Code
+
+```sh
+pnpm run format
 ```
 
 ### Build for Production
@@ -44,4 +54,4 @@ pnpm run build
 ## Customization
 
 - Update `src/styles/theme.css` to change the color palette.
-- Modify content in `src/components/` to update text and links.
+- Modify content in `src/components/` and `src/locales/` to update text and translations.
