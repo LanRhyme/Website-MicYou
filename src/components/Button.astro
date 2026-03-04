@@ -16,7 +16,10 @@ const tagMap = {
 } as const;
 
 const Tag = tagMap[variant];
-const style = variant === "filled" || variant === "outlined" ? "min-width: 140px" : undefined;
+const style =
+	variant === "filled" || variant === "outlined"
+		? "min-width: 140px"
+		: undefined;
 ---
 
 <Tag href={href} style={style}>

@@ -108,4 +108,3 @@ export async function detectDevice(): Promise<DeviceType> {
 
 	return logAndReturn("unknown");
 }
-
