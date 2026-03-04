@@ -10,13 +10,15 @@ const {
 	description = "MicYou - Turn your smartphone into a professional microphone for PC. Low latency, high quality audio streaming via Wi-Fi or USB.",
 	lang = "en",
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
 <html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="icon" type="image/png" href="/icon.png" />
+		<link rel="icon" type="image/png" href={`${base}icon.png`} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
@@ -29,7 +31,7 @@ const {
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
-		<meta property="og:image" content="/icon.png" />
+		<meta property="og:image" content={`${base}icon.png`} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link

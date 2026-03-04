@@ -31,9 +31,12 @@ const { t } = Astro.props;
 	import "@material/web/button/filled-button.js";
 	import "@material/web/icon/icon.js";
 
-	const section = document.getElementById("contributors")!;
-	const contentEl =
-		section.querySelector<HTMLElement>(".contributors-content")!;
+	const section = document.getElementById("contributors");
+	if (!section) throw new Error("Missing #contributors");
+	const contentElRaw = section.querySelector(".contributors-content");
+	if (!contentElRaw) throw new Error("Missing .contributors-content");
+	/** @type {HTMLElement} */
+	const contentEl = /** @type {HTMLElement} */ (contentElRaw);
 	const t = JSON.parse(section.dataset.t ?? "{}");
 	const AUTHORS = ["LanRhyme", "ChinsaaWei"];
 
@@ -48,15 +51,12 @@ const { t } = Astro.props;
 
 			const contributors = data
 				.filter(
-					(c: { type: string; login: string }) =>
+					(c) =>
 						c.type === "User" &&
 						!c.login.toLowerCase().includes("bot"),
 				)
 				.sort(
-					(
-						a: { contributions: number },
-						b: { contributions: number },
-					) => b.contributions - a.contributions,
+					(a, b) => b.contributions - a.contributions,
 				);
 
 			contentEl.textContent = "";
@@ -64,12 +64,7 @@ const { t } = Astro.props;
 			grid.className = "grid";
 
 			contributors.forEach(
-				(c: {
-					html_url: string;
-					avatar_url: string;
-					login: string;
-					contributions: number;
-				}) => {
+				(c) => {
 					const card = document.createElement("a");
 					card.href = c.html_url;
 					card.target = "_blank";
