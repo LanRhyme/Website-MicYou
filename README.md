@@ -20,19 +20,25 @@ This is the official website for MicYou, a professional microphone streaming sof
 ### Install Dependencies
 
 ```sh
-npm install
+pnpm install
 ```
 
 ### Run Development Server
 
 ```sh
-npm run dev
+pnpm run dev
+```
+
+### Format
+
+```sh
+pnpm format
 ```
 
 ### Build for Production
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 ## Customization
