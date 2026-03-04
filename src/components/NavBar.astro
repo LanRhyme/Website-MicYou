@@ -45,14 +45,16 @@ const { t, currentLang } = Astro.props;
 	import "@material/web/button/filled-button.js";
 	import "@material/web/icon/icon.js";
 
-	const navbar = document.getElementById("main-navbar")!;
-	window.addEventListener(
-		"scroll",
-		() => {
-			navbar.classList.toggle("navbar--scrolled", window.scrollY > 20);
-		},
-		{ passive: true },
-	);
+	const navbar = document.getElementById("main-navbar");
+	if (navbar) {
+		window.addEventListener(
+			"scroll",
+			() => {
+				navbar.classList.toggle("navbar--scrolled", window.scrollY > 20);
+			},
+			{ passive: true },
+		);
+	}
 </script>
 
 <style>
