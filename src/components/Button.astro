@@ -7,40 +7,22 @@ interface Props {
 }
 
 const { variant = "filled", icon, label, href } = Astro.props;
+
+const tagMap = {
+	filled: "md-filled-button",
+	tonal: "md-filled-tonal-button",
+	outlined: "md-outlined-button",
+	text: "md-text-button",
+} as const;
+
+const Tag = tagMap[variant];
+const style = variant === "filled" || variant === "outlined" ? "min-width: 140px" : undefined;
 ---
 
-{
-	variant === "filled" && (
-		<md-filled-button href={href} style="min-width: 140px">
-			{icon && <md-icon slot="icon">{icon}</md-icon>}
-			<slot>{label}</slot>
-		</md-filled-button>
-	)
-}
-{
-	variant === "tonal" && (
-		<md-filled-tonal-button href={href}>
-			{icon && <md-icon slot="icon">{icon}</md-icon>}
-			<slot>{label}</slot>
-		</md-filled-tonal-button>
-	)
-}
-{
-	variant === "outlined" && (
-		<md-outlined-button href={href} style="min-width: 140px">
-			{icon && <md-icon slot="icon">{icon}</md-icon>}
-			<slot>{label}</slot>
-		</md-outlined-button>
-	)
-}
-{
-	variant === "text" && (
-		<md-text-button href={href}>
-			{icon && <md-icon slot="icon">{icon}</md-icon>}
-			<slot>{label}</slot>
-		</md-text-button>
-	)
-}
+<Tag href={href} style={style}>
+	{icon && <md-icon slot="icon">{icon}</md-icon>}
+	<slot>{label}</slot>
+</Tag>
 
 <script>
 	import "@material/web/button/filled-button.js";

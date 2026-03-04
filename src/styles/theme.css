@@ -108,3 +108,24 @@ md-icon {
 :not(:defined) {
 	visibility: hidden;
 }
+
+html {
+	scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--md-sys-color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--md-sys-color-outline);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--md-sys-color-outline-variant);
+}

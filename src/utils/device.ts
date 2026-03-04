@@ -109,7 +109,3 @@ export async function detectDevice(): Promise<DeviceType> {
 	return logAndReturn("unknown");
 }
 
-export function isMobileDevice(): boolean {
-	const ua = typeof navigator !== "undefined" ? navigator.userAgent || "" : "";
-	return /Android|iPhone|iPad|iPod/i.test(ua);
-}

@@ -20,34 +20,3 @@ import "../../styles/theme.css";
     </main>
     <Footer t={en.footer} />
 </Layout>
-
-<style is:global>
-    .app-container {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        background-color: var(--md-sys-color-background);
-        color: var(--md-sys-color-on-background);
-    }
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: var(--md-sys-color-surface);
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: var(--md-sys-color-outline);
-        border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--md-sys-color-outline-variant);
-    }
-</style>
