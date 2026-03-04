@@ -27,7 +27,7 @@ const { currentLang } = Astro.props;
 
 	document.querySelectorAll(".language-switcher").forEach((switcher) => {
 		const anchor = switcher.querySelector("md-icon-button")!;
-		const menu = switcher.querySelector("md-menu") as any;
+		const menu = switcher.querySelector("md-menu");
 		if (!menu || !anchor) return;
 
 		menu.anchorElement = anchor;

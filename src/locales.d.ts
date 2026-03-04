@@ -1,18 +1,17 @@
+type LocaleValue = string | { [key: string]: LocaleValue };
+type LocaleMessages = { [key: string]: LocaleValue };
+
 declare module "./locales/en" {
-	const value: {
-		[key: string]: any;
-	};
+	const value: LocaleMessages;
 	export default value;
 }
 
 declare module "./locales/zh" {
-	const value: {
-		[key: string]: any;
-	};
+	const value: LocaleMessages;
 	export default value;
 }
 
 declare module "./locales/*" {
-	const value: { [key: string]: any };
+	const value: LocaleMessages;
 	export default value;
 }
