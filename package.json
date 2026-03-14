@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vitepress dev",
-    "build": "vitepress build",
+    "build": "vitepress build && node .vitepress/convert-webp.mjs",
     "preview": "vitepress preview"
   },
   "keywords": [],
@@ -16,6 +16,7 @@
   "devDependencies": {
     "@mdit/plugin-figure": "^0.23.1",
     "pngjs": "^7.0.0",
+    "sharp": "^0.34.5",
     "vitepress": "2.0.0-alpha.16"
   },
   "dependencies": {
