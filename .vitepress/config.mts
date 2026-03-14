@@ -11,6 +11,8 @@ export default defineConfig({
   cleanUrls: true,
 
   markdown: {
+    lineNumbers: true,
+    image: { lazyLoading: true },
     config: (md) => {
       md.use(figure)
     } 
