@@ -72,8 +72,6 @@ export default {
 		authorBadge: "Author",
 	},
 	footer: {
-		privacy: "Privacy Policy",
-		terms: "Terms of Service",
 		rights: "All rights reserved.",
 		madeWith: "made with ❤️ by LanRhyme",
 	},

@@ -66,8 +66,6 @@ export default {
 		authorBadge: "作者",
 	},
 	footer: {
-		privacy: "隐私政策",
-		terms: "服务条款",
 		rights: "保留所有权利",
 		madeWith: "made by LanRhyme with ❤️",
 	},
