@@ -73,7 +73,7 @@ export const footer = {
 // 主題配置
 export const themeConfig = {
 	editLink: {
-		pattern: "https://github.com/LanRhyme/Website-MicYou/edit/master/src/docs/:path",
+		pattern: "https://github.com/LanRhyme/Website-MicYou/edit/master/src/:path",
 		text: "在 GitHub 上編輯此頁",
 	},
 	lastUpdated: {
