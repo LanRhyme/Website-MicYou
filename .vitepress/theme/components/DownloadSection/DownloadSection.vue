@@ -155,7 +155,7 @@ onMounted(async () => {
   font-weight: 700;
   margin: 0;
   background: linear-gradient(120deg, var(--vp-c-brand-1), var(--vp-c-brand-2));
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
