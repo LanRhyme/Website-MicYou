@@ -25,8 +25,8 @@ export const nav: DefaultTheme.NavItem[] = [
 export const contributors = {
 	author: "Author",
 	contributions: "contributions",
-	developedWith: "MicYou Developed with ❤",
-	thanksContributors: "Thanks to our contributors",
+	developedWith: "MicYou made by ❤",
+	thanksContributors: "Thanks to our contributors, who make MicYou better",
 };
 
 // Download component translations

@@ -25,8 +25,8 @@ export const nav: DefaultTheme.NavItem[] = [
 export const contributors = {
 	author: "作者",
 	contributions: "次貢獻",
-	developedWith: "MicYou 開發自 ❤",
-	thanksContributors: "感謝以下貢獻者",
+	developedWith: "MicYou 用 ❤ 發電",
+	thanksContributors: "感謝以下貢獻者,TA們讓McYou變得更好",
 };
 
 // 下載組件翻譯
