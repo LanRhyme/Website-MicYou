@@ -1,11 +1,11 @@
 // https://vitepress.dev/guide/custom-theme
 
-import type { Theme } from "vitepress";
+import type { EnhanceAppContext, Theme } from "vitepress";
 import { useData } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import { h } from "vue";
 import "@theojs/lumen/style";
-import { BoxCube, Card, Footer, Links, Pill } from "@theojs/lumen";
+import { BoxCube, Card, Footer, Links, Pill, googleAnalytics } from "@theojs/lumen";
 import { getFooterData, type Lang } from "../data/i18n";
 import Contributors from "./components/ContributorsCards/Contributors.vue";
 import DownloadSection from "./components/DownloadSection/DownloadSection.vue";
@@ -24,7 +24,7 @@ export default {
 			},
 		});
 	},
-	enhanceApp({ app }) {
+	enhanceApp: ({ app }: EnhanceAppContext) => {
 		// 注册 lumen 组件
 		app.component("BoxCube", BoxCube);
 		app.component("Card", Card);
@@ -32,5 +32,7 @@ export default {
 		app.component("Pill", Pill);
 		app.component("Contributors", Contributors);
 		app.component("DownloadSection", DownloadSection);
+		// 注册 Google Analytics 插件
+		googleAnalytics({ id: 'G-VVV2NJ36QR' }) 
 	},
 } satisfies Theme;
