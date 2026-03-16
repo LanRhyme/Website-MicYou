@@ -16,7 +16,7 @@ import {
 import { getFooterData, type Lang } from "../data/i18n";
 import Contributors from "./components/ContributorsCards/Contributors.vue";
 import DownloadSection from "./components/DownloadSection/DownloadSection.vue";
-import UmamiStats from "./components/UmamiStats.vue";
+import UmamiStats from "./components/UmamiStats/UmamiStats.vue";
 import WebVitals from "./components/WebVitals.vue";
 import "./style.css";
 
