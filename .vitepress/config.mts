@@ -42,9 +42,22 @@ export default defineConfig({
 			},
 		],
 		// 预连接优化 - 减少外部资源连接延迟
-		["link", { rel: "preconnect", href: "https://api.github.com", crossorigin: "" }],
-		["link", { rel: "preconnect", href: "https://api.iconify.design", crossorigin: "" }],
-		["link", { rel: "preconnect", href: "https://umami.micyou.top", crossorigin: "" }],
+		[
+			"link",
+			{ rel: "preconnect", href: "https://api.github.com", crossorigin: "" },
+		],
+		[
+			"link",
+			{
+				rel: "preconnect",
+				href: "https://api.iconify.design",
+				crossorigin: "",
+			},
+		],
+		[
+			"link",
+			{ rel: "preconnect", href: "https://umami.micyou.top", crossorigin: "" },
+		],
 		[
 			"link",
 			{ rel: "dns-prefetch", href: "https://avatars.githubusercontent.com" },

@@ -1,23 +1,12 @@
-/**
- * MicYou 主题样式
- * 主题色基于应用图标提取
- */
+/* MicYou 主题样式 - 主题色基于应用图标提取 */
 
-/**
- * Brand Colors - 基于图标主题色 #334355
- * -------------------------------------------------------------------------- */
-
+/* Brand Colors */
 :root {
-	/* 主色调 - 深蓝灰 */
 	--vp-c-brand-1: #4a5d73;
 	--vp-c-brand-2: #3d4f64;
 	--vp-c-brand-3: #334355;
 	--vp-c-brand-soft: rgba(51, 67, 85, 0.14);
 }
-
-/**
- * Dark Mode - 深色模式调整
- * -------------------------------------------------------------------------- */
 
 .dark {
 	--vp-c-brand-1: #6b8aad;
@@ -26,11 +15,7 @@
 	--vp-c-brand-soft: rgba(107, 138, 173, 0.14);
 }
 
-/**
- * Accessibility - 无障碍优化
- * -------------------------------------------------------------------------- */
-
-/* 跳过导航链接 */
+/* Accessibility */
 .skip-to-content {
 	position: absolute;
 	top: -100%;
@@ -50,27 +35,23 @@
 	top: 16px;
 }
 
-/* 全局焦点样式 - 提升键盘导航可见性 */
 :focus-visible {
 	outline: 2px solid var(--vp-c-brand-1);
 	outline-offset: 2px;
 }
 
-/* 按钮焦点样式 */
 button:focus-visible,
 .btn:focus-visible {
 	outline: 2px solid var(--vp-c-brand-1);
 	outline-offset: 2px;
 }
 
-/* 链接焦点样式 */
 a:focus-visible {
 	outline: 2px solid var(--vp-c-brand-1);
 	outline-offset: 2px;
 	border-radius: 4px;
 }
 
-/* 减少动画 - 尊重用户偏好 */
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
@@ -81,10 +62,7 @@ a:focus-visible {
 	}
 }
 
-/**
- * Component: Home Hero
- * -------------------------------------------------------------------------- */
-
+/* Home Hero */
 :root {
 	--vp-home-hero-name-color: transparent;
 	--vp-home-hero-name-background: linear-gradient(
@@ -93,7 +71,6 @@ a:focus-visible {
 		#4a6a8d 50%,
 		#6b8aad 100%
 	);
-
 	--vp-home-hero-image-background-image: linear-gradient(
 		135deg,
 		#334355 0%,
@@ -101,8 +78,6 @@ a:focus-visible {
 		#6b8aad 100%
 	);
 	--vp-home-hero-image-filter: blur(68px);
-
-	/* Hero 按钮主题色 */
 	--vp-button-brand-border: transparent;
 	--vp-button-brand-text: #fff;
 	--vp-button-brand-bg: var(--vp-c-brand-1);
@@ -126,48 +101,96 @@ a:focus-visible {
 	}
 }
 
-.VPTeamMembers .item {
-	transition: transform 0.3s; /* 平滑过渡 */
-}
-
-.VPFeatures .items .item {
-	transition: transform 0.3s; /* 平滑过渡 */
-}
-
-/* Hero text 字体缩小 */
 .VPHero .text {
 	font-size: 36px;
 	line-height: 1.2;
 }
 
-/**
- * Image Optimization - 图片尺寸优化
- * 为图片设置固定尺寸以减少布局偏移 (CLS)
- * -------------------------------------------------------------------------- */
+.VPTeamMembers .item,
+.VPFeatures .items .item {
+	transition: transform 0.3s;
+}
 
-/* Hero 图片 - 固定尺寸减少 CLS */
+.VPTeamMembers .item:hover,
+.VPFeatures .items .item:hover {
+	transform: translateY(-5px);
+}
+
+/* Image Optimization */
 .VPHero .VPImage.image-src {
 	width: 192px;
 	height: 192px;
 	aspect-ratio: 1 / 1;
 }
 
-/* 导航栏 Logo - 固定尺寸 */
 .VPNavBar .VPImage.logo {
 	width: 24px;
 	height: 24px;
 	aspect-ratio: 1 / 1;
 }
 
-/* 确保图片按比例缩放 */
 .VPImage {
 	object-fit: contain;
 }
 
-.VPTeamMembers .item:hover {
-	transform: translateY(-5px); /* 向上移动 */
+/* Navbar */
+.VPNavBar.screen-open,
+.VPNavScreenMenuLink,
+.VPNavScreenMenuGroup,
+.VPLocalNav {
+	border-bottom: none;
 }
 
-.VPFeatures .items .item:hover {
-	transform: translateY(-5px); /* 向上移动 */
+.divider {
+	display: none;
+}
+
+/* Blur Effects */
+.VPNavBar:not(.has-sidebar):not(.home.top) {
+	background-color: rgba(255, 255, 255, 0);
+	backdrop-filter: blur(10px);
+}
+
+.dark .VPNavBar:not(.has-sidebar):not(.home.top) {
+	background-color: rgba(30, 30, 32, 0);
+}
+
+.DocSearch-Button {
+	background-color: rgba(255, 255, 255, 0);
+	backdrop-filter: blur(10px);
+}
+
+.VPFeature {
+	border: none;
+	box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%);
+	background-color: transparent;
+}
+
+.curtain {
+	background-color: rgba(255, 255, 255, 0);
+	backdrop-filter: blur(10px);
+}
+
+.dark .curtain {
+	background-color: rgba(30, 30, 32, 0);
+}
+
+@media (min-width: 960px) {
+	.VPNavBar:not(.home.top) .content-body {
+		background-color: rgba(255, 255, 255, 0);
+		backdrop-filter: blur(10px);
+	}
+
+	.dark .VPNavBar:not(.home.top) .content-body {
+		background-color: rgba(30, 30, 32, 0);
+	}
+}
+
+.VPLocalNav {
+	background-color: rgba(255, 255, 255, 0);
+	backdrop-filter: blur(10px);
+}
+
+.dark .VPLocalNav {
+	background-color: rgba(30, 30, 32, 0);
 }
