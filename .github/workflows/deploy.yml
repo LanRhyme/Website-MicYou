@@ -36,6 +36,10 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install dependencies
         run: pnpm install
+      - name: Fetch GitHub data
+        run: pnpm fetch:ghdata
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build with VitePress
         run: pnpm build
       - name: Upload artifact

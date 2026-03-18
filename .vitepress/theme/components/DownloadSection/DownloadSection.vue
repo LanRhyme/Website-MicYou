@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useData } from "vitepress";
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { downloadTranslations, type Lang } from "../../../data/i18n";
+import ghdata from "../../../../src/ghdata.json";
 
 const { lang } = useData();
 const t = computed(
@@ -9,9 +10,7 @@ const t = computed(
 		downloadTranslations[lang.value as Lang] || downloadTranslations["zh-CN"],
 );
 
-const latestVersion = ref("");
-const loading = ref(true);
-const error = ref(false);
+const latestVersion = ref(ghdata.version);
 const copiedId = ref<string | null>(null);
 
 const platforms = computed(() => [
@@ -80,31 +79,6 @@ const copyCmd = async (cmd: string) => {
 	copiedId.value = cmd;
 	setTimeout(() => (copiedId.value = null), 2000);
 };
-
-onMounted(async () => {
-	const cache = localStorage.getItem("micyou-ver");
-	if (cache) {
-		const { ver, time } = JSON.parse(cache);
-		if (Date.now() - time < 6 * 60 * 60 * 1000) {
-			latestVersion.value = ver;
-			return;
-		}
-	}
-	try {
-		const res = await fetch(
-			"https://api.github.com/repos/LanRhyme/MicYou/releases/latest",
-		);
-		latestVersion.value = (await res.json()).tag_name.replace(/^v/, "");
-		localStorage.setItem(
-			"micyou-ver",
-			JSON.stringify({ ver: latestVersion.value, time: Date.now() }),
-		);
-	} catch {
-		error.value = true;
-	} finally {
-		loading.value = false;
-	}
-});
 </script>
 
 <template>
@@ -114,37 +88,29 @@ onMounted(async () => {
       <span v-if="latestVersion" class="ver">v{{ latestVersion }}</span>
     </header>
 
-    <div v-if="loading" class="state"><span class="spin" />{{ t.loading }}</div>
-    <div v-else-if="error" class="state">
-      <p>{{ t.error }}</p>
-      <a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewOnGitHub }}</a>
-    </div>
-
-    <template v-else>
-      <div class="card">
-        <div v-for="(p, i) in platforms" :key="p.name" class="row" :class="{ 'has-border': i }">
-          <div class="info">
-            <iconify-icon :icon="p.icon" class="icon" />
-            <div>
-              <h3>{{ p.name }}</h3>
-              <p>{{ p.desc }}</p>
-            </div>
-          </div>
-          <div class="opts">
-            <template v-for="f in p.files" :key="f.pattern || f.copy">
-              <a v-if="f.pattern" :href="getUrl(f.pattern)" class="btn" target="_blank">
-                <iconify-icon icon="mdi:download" />{{ f.name }}
-              </a>
-              <button v-else class="btn" :class="{ done: copiedId === f.copy }" @click="copyCmd(f.copy!)">
-                <iconify-icon :icon="copiedId === f.copy ? 'mdi:check' : 'mdi:content-copy'" />
-                {{ copiedId === f.copy ? t.copied : f.name }}
-              </button>
-            </template>
+    <div class="card">
+      <div v-for="(p, i) in platforms" :key="p.name" class="row" :class="{ 'has-border': i }">
+        <div class="info">
+          <iconify-icon :icon="p.icon" class="icon" />
+          <div>
+            <h3>{{ p.name }}</h3>
+            <p>{{ p.desc }}</p>
           </div>
         </div>
+        <div class="opts">
+          <template v-for="f in p.files" :key="f.pattern || f.copy">
+            <a v-if="f.pattern" :href="getUrl(f.pattern)" class="btn" target="_blank">
+              <iconify-icon icon="mdi:download" />{{ f.name }}
+            </a>
+            <button v-else class="btn" :class="{ done: copiedId === f.copy }" @click="copyCmd(f.copy!)">
+              <iconify-icon :icon="copiedId === f.copy ? 'mdi:check' : 'mdi:content-copy'" />
+              {{ copiedId === f.copy ? t.copied : f.name }}
+            </button>
+          </template>
+        </div>
       </div>
-      <p class="notes"><a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewReleaseNotes }}</a></p>
-    </template>
+    </div>
+    <p class="notes"><a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewReleaseNotes }}</a></p>
   </div>
 </template>
 
@@ -178,41 +144,6 @@ onMounted(async () => {
   background: var(--vp-c-brand-soft);
   color: var(--vp-c-brand-1);
   border: 1px solid var(--vp-c-brand-1);
-}
-
-.state {
-  text-align: center;
-  padding: 64px 24px;
-  color: var(--vp-c-text-2);
-}
-
-.state a {
-  display: inline-block;
-  margin-top: 16px;
-  padding: 12px 24px;
-  border-radius: 8px;
-  background: var(--vp-c-brand-1);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.spin {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 3px solid var(--vp-c-divider);
-  border-top-color: var(--vp-c-brand-1);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-right: 12px;
-  vertical-align: middle;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .card {
