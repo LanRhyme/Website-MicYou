@@ -19,6 +19,10 @@ export const nav: DefaultTheme.NavItem[] = [
 		text: '<iconify-icon class="i-mr" icon="mdi:video" style="color:#9c27b0"></iconify-icon>视频',
 		link: "/video",
 	},
+	{
+		text: '<iconify-icon class="i-mr" icon="mdi:history" style="color:#ff9800"></iconify-icon>更新日志',
+		link: "/changelog",
+	},
 ];
 
 // 贡献者组件翻译
