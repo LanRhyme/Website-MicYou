@@ -9,75 +9,56 @@ const t = computed(
 	() =>
 		downloadTranslations[lang.value as Lang] || downloadTranslations["zh-CN"],
 );
+const version = ref(ghdata.version);
+const copied = ref<string | null>(null);
 
-const latestVersion = ref(ghdata.version);
-const copiedId = ref<string | null>(null);
-
-const platforms = computed(() => [
+const platforms = [
 	{
 		name: "Windows",
 		icon: "simple-icons:windows",
-		desc: t.value.windowsDesc,
+		desc: "windowsDesc",
 		files: [
-			{
-				name: t.value.installer,
-				pattern: "MicYou-Win-{version}-installer.exe",
-			},
-			{
-				name: `${t.value.portable} (JRE)`,
-				pattern: "MicYou-Win-{version}.zip",
-			},
-			{
-				name: `${t.value.portable} (NoJRE)`,
-				pattern: "MicYou-Win-NoJRE-{version}.zip",
-			},
+			{ name: "installer", pattern: "MicYou-Win-{version}-installer.exe" },
+			{ name: "portableJRE", pattern: "MicYou-Win-{version}.zip" },
+			{ name: "portableNoJRE", pattern: "MicYou-Win-NoJRE-{version}.zip" },
 		],
 	},
 	{
 		name: "macOS",
 		icon: "simple-icons:macos",
-		desc: t.value.macOSDesc,
+		desc: "macOSDesc",
 		files: [
-			{
-				name: "DMG (Apple Silicon)",
-				pattern: "MicYou-macOS-{version}-arm64.dmg",
-			},
-			{ name: "DMG (Intel)", pattern: "MicYou-macOS-{version}-x64.dmg" },
-			{
-				name: `${t.value.portable} (NoJRE)`,
-				pattern: "MicYou-macOS-NoJRE-{version}.tar.gz",
-			},
+			{ name: "dmgArm", pattern: "MicYou-macOS-{version}-arm64.dmg" },
+			{ name: "dmgIntel", pattern: "MicYou-macOS-{version}-x64.dmg" },
+			{ name: "portableNoJRE", pattern: "MicYou-macOS-NoJRE-{version}.tar.gz" },
 		],
 	},
 	{
 		name: "Linux",
 		icon: "simple-icons:linux",
-		desc: t.value.linuxDesc,
+		desc: "linuxDesc",
 		files: [
-			{ name: "DEB", pattern: "MicYou-Linux-{version}.deb" },
-			{ name: "RPM", pattern: "MicYou-Linux-{version}.rpm" },
-			{ name: "Arch", copy: "paru -S micyou-bin" },
-			{
-				name: `${t.value.portable} (NoJRE)`,
-				pattern: "MicYou-Linux-NoJRE-{version}.tar.gz",
-			},
+			{ name: "deb", pattern: "MicYou-Linux-{version}.deb" },
+			{ name: "rpm", pattern: "MicYou-Linux-{version}.rpm" },
+			{ name: "arch", copy: "paru -S micyou-bin" },
+			{ name: "portableNoJRE", pattern: "MicYou-Linux-NoJRE-{version}.tar.gz" },
 		],
 	},
 	{
 		name: "Android",
 		icon: "simple-icons:android",
-		desc: t.value.androidDesc,
-		files: [{ name: "APK", pattern: "MicYou-Android-{version}.apk" }],
+		desc: "androidDesc",
+		files: [{ name: "apk", pattern: "MicYou-Android-{version}.apk" }],
 	},
-]);
+];
 
 const getUrl = (pattern: string) =>
-	`https://github.com/LanRhyme/MicYou/releases/download/v${latestVersion.value}/${pattern.replace("{version}", latestVersion.value)}`;
+	`https://github.com/LanRhyme/MicYou/releases/download/v${version.value}/${pattern.replace("{version}", version.value)}`;
 
 const copyCmd = async (cmd: string) => {
 	await navigator.clipboard.writeText(cmd);
-	copiedId.value = cmd;
-	setTimeout(() => (copiedId.value = null), 2000);
+	copied.value = cmd;
+	setTimeout(() => (copied.value = null), 2000);
 };
 </script>
 
@@ -85,32 +66,35 @@ const copyCmd = async (cmd: string) => {
   <div class="dl">
     <header class="dl-head">
       <h1>{{ t.title }}</h1>
-      <span v-if="latestVersion" class="ver">v{{ latestVersion }}</span>
+      <span class="ver">v{{ version }}</span>
     </header>
 
     <div class="card">
-      <div v-for="(p, i) in platforms" :key="p.name" class="row" :class="{ 'has-border': i }">
+      <div v-for="(p, i) in platforms" :key="p.name" class="row" :class="{ border: i }">
         <div class="info">
           <iconify-icon :icon="p.icon" class="icon" />
           <div>
             <h3>{{ p.name }}</h3>
-            <p>{{ p.desc }}</p>
+            <p>{{ t[p.desc] }}</p>
           </div>
         </div>
         <div class="opts">
           <template v-for="f in p.files" :key="f.pattern || f.copy">
             <a v-if="f.pattern" :href="getUrl(f.pattern)" class="btn" target="_blank">
-              <iconify-icon icon="mdi:download" />{{ f.name }}
+              <iconify-icon icon="mdi:download" />{{ t[f.name] }}
             </a>
-            <button v-else class="btn" :class="{ done: copiedId === f.copy }" @click="copyCmd(f.copy!)">
-              <iconify-icon :icon="copiedId === f.copy ? 'mdi:check' : 'mdi:content-copy'" />
-              {{ copiedId === f.copy ? t.copied : f.name }}
+            <button v-else class="btn" :class="{ done: copied === f.copy }" @click="copyCmd(f.copy!)">
+              <iconify-icon :icon="copied === f.copy ? 'mdi:check' : 'mdi:content-copy'" />
+              {{ copied === f.copy ? t.copied : t[f.name] }}
             </button>
           </template>
         </div>
       </div>
     </div>
-    <p class="notes"><a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewReleaseNotes }}</a></p>
+
+    <p class="notes">
+      <a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewReleaseNotes }}</a>
+    </p>
   </div>
 </template>
 
@@ -159,14 +143,13 @@ const copyCmd = async (cmd: string) => {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  transition: background 0.2s;
 }
 
 .row:hover {
   background: var(--vp-c-bg);
 }
 
-.row.has-border {
+.row.border {
   border-top: 1px solid var(--vp-c-divider);
 }
 
