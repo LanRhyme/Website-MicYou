@@ -73,10 +73,8 @@ const contributors = computed(() =>
           class="contributor-card"
         >
           <img :src="c.avatar" :alt="c.name" class="avatar" />
-          <div class="info">
-            <span class="name">{{ c.name }}</span>
-            <span class="title">{{ c.title }}</span>
-          </div>
+          <span class="name">{{ c.name }}</span>
+          <span class="title">{{ c.title }}</span>
         </a>
       </div>
     </div>
@@ -121,7 +119,7 @@ const contributors = computed(() =>
 
 .contributors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
   width: 100%;
   max-width: 1152px;
@@ -131,7 +129,7 @@ const contributors = computed(() =>
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 16px;
+  padding: 20px 16px;
   border-radius: 12px;
   background: var(--vp-c-bg-soft);
   text-decoration: none;
@@ -144,29 +142,28 @@ const contributors = computed(() =>
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   box-shadow: var(--vp-shadow-1);
 }
 
-.info {
-  margin-top: 12px;
-  text-align: center;
-}
-
 .name {
-  display: block;
-  font-size: 15px;
+  margin-top: 8px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--vp-c-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .title {
-  display: block;
-  margin-top: 4px;
-  font-size: 13px;
+  margin-top: 2px;
+  font-size: 12px;
   color: var(--vp-c-text-2);
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -177,6 +174,11 @@ const contributors = computed(() =>
   .section-title {
     margin: 32px 0 20px;
     font-size: 1.125rem;
+  }
+
+  .contributors-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
   }
 }
 
@@ -198,7 +200,7 @@ const contributors = computed(() =>
 
   .contributors-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   .contributor-card {
@@ -206,16 +208,8 @@ const contributors = computed(() =>
   }
 
   .avatar {
-    width: 48px;
-    height: 48px;
-  }
-
-  .name {
-    font-size: 14px;
-  }
-
-  .title {
-    font-size: 12px;
+    width: 40px;
+    height: 40px;
   }
 }
 </style>
