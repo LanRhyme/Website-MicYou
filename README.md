@@ -75,7 +75,7 @@ pnpm preview
 
 ```
 Website-MicYou/
-├── .agent/                 # AI agent configuration
+├── .agent/                 # AI agent configuration: set the agent name (e.g., .qwen).
 ├── .github/workflows/      # GitHub Actions workflows
 ├── .vitepress/
 │   ├── config.mts          # VitePress configuration
