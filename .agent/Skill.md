@@ -156,6 +156,23 @@ Check if multi-language content is synchronized.
 
 ---
 
+### 6. Fetch GitHub Data (fetch-gh-data)
+
+Fetch GitHub releases and statistics data.
+
+**Trigger**: User requests to update GitHub data or before deployment
+
+**Steps**:
+1. Run `pnpm fetch:ghdata` to fetch latest data
+2. Data is saved to `src/ghdata.json`
+3. Used by ChangelogViewer and other components
+
+**Notes**:
+- Requires network access to GitHub API
+- Data includes releases, download counts, etc.
+
+---
+
 ## Workflow Examples
 
 ### Add "Installation Guide" Document
@@ -202,9 +219,12 @@ Execute:
 | Command | Description |
 |---------|-------------|
 | `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
+| `pnpm build` | Build for production (includes fetch:ghdata) |
 | `pnpm preview` | Preview build result |
 | `pnpm install` | Install dependencies |
+| `pnpm lint` | Run Biome linter |
+| `pnpm format` | Format code with Biome |
+| `pnpm fetch:ghdata` | Fetch GitHub data |
 
 ## Related Links
 

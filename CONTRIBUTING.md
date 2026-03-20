@@ -37,7 +37,7 @@ Found a bug or have a suggestion?
 | Dependency | Version |
 |------------|---------|
 | Node.js | >= 22 |
-| pnpm | >= 10 |
+| pnpm | >= 10.32 |
 
 ### Getting Started
 
@@ -58,10 +58,11 @@ pnpm dev
 | Command | Description |
 |---------|-------------|
 | `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
+| `pnpm build` | Build for production (includes fetch:ghdata) |
 | `pnpm preview` | Preview production build |
-| `pnpm lint` | Run linter |
-| `pnpm format` | Format code |
+| `pnpm lint` | Run Biome linter |
+| `pnpm format` | Format code with Biome |
+| `pnpm fetch:ghdata` | Fetch GitHub data (releases, stats) |
 
 ## Coding Standards
 
@@ -106,9 +107,16 @@ docs: update FAQ with new troubleshooting steps
 ### Code Style
 
 - Use TypeScript for configuration files
-- Follow existing code formatting
+- Follow Biome formatting rules
 - Keep components focused and small
 - Use Vue 3 Composition API
+
+### Git Hooks
+
+The project uses Husky for git hooks:
+
+- **pre-commit**: Runs lint-staged to format staged files automatically
+- No additional action required from contributors
 
 ## Documentation Guidelines
 

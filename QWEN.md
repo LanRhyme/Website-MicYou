@@ -17,12 +17,12 @@ MicYou Website is the official documentation site for the MicYou application. Mi
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| VitePress | 2.0.0-alpha | Static site generator |
-| Vue | 3.5 | Frontend framework |
-| @theojs/lumen | 6.4 | Theme component library |
-| pnpm | 10.x | Package manager |
+| VitePress | 2.0.0-alpha.16 | Static site generator |
+| Vue | 3.5.30 | Frontend framework |
+| @theojs/lumen | 6.4.5 | Theme component library |
+| pnpm | 10.32.1 | Package manager |
 | TypeScript | - | Type support |
-| Biome | 2.x | Code formatting and linting |
+| Biome | 2.4.8 | Code formatting and linting |
 
 ## Project Structure
 
@@ -33,6 +33,7 @@ Website-MicYou/
 │   └── Skill.md            # Skill definitions
 ├── .github/
 │   └── workflows/          # GitHub Actions deployment
+├── .husky/                 # Git hooks configuration
 ├── .vitepress/
 │   ├── config.mts          # Main VitePress config
 │   ├── cache/              # Build cache
@@ -46,16 +47,32 @@ Website-MicYou/
 │   │   ├── index.ts        # Theme entry
 │   │   ├── style.css       # Custom styles
 │   │   └── components/     # Custom components
+│   │       ├── ChangelogViewer/
+│   │       ├── ContributorsCards/
+│   │       ├── DownloadSection/
+│   │       └── UmamiStats/
 │   └── dist/               # Build output
+├── scripts/
+│   └── fetch-gh-data.ts    # Fetch GitHub data script
 ├── src/
 │   ├── index.md            # Homepage
+│   ├── changelog.md        # Changelog page
+│   ├── download.md         # Download page
+│   ├── video.md            # Video page
 │   ├── docs/               # Documentation pages
 │   │   ├── sidebar.ts      # Sidebar config
 │   │   ├── quick-start.md
 │   │   └── faq.md
 │   ├── en/                 # English content
+│   ├── zh/                 # Simplified Chinese content (alias)
 │   ├── zh-TW/              # Traditional Chinese content
-│   └── public/             # Static assets
+│   ├── public/             # Static assets
+│   │   ├── app_icon.png
+│   │   ├── input-device.png
+│   │   ├── output-device.png
+│   │   └── robots.txt
+│   └── ghdata.json         # GitHub data cache
+├── biome.json              # Biome configuration
 ├── package.json
 └── pnpm-lock.yaml
 ```
@@ -63,12 +80,13 @@ Website-MicYou/
 ## Development Commands
 
 ```bash
-pnpm install     # Install dependencies
-pnpm dev         # Start development server
-pnpm build       # Build for production
-pnpm preview     # Preview build result
-pnpm lint        # Run linter
-pnpm format      # Format code
+pnpm install        # Install dependencies
+pnpm dev            # Start development server
+pnpm build          # Build for production (includes fetch:ghdata)
+pnpm preview        # Preview build result
+pnpm lint           # Run linter
+pnpm format         # Format code
+pnpm fetch:ghdata   # Fetch GitHub data (releases, stats)
 ```
 
 ## Internationalization (i18n)
@@ -100,12 +118,18 @@ The project uses the `@theojs/lumen` theme component library, providing:
 | `Card` | Card component |
 | `Links` | Links component |
 | `Pill` | Pill tag component |
+| `CopyText` | Copy to clipboard component |
 
 ### Custom Components
 
 Located in `.vitepress/theme/components/`:
 
-- `Contributors` - Contributor display component
+| Component | Description |
+|-----------|-------------|
+| `Contributors` | Contributor display component with cards |
+| `ChangelogViewer` | Changelog viewer with GitHub releases |
+| `DownloadSection` | Download links for different platforms |
+| `UmamiStats` | Umami analytics stats display |
 
 ## Adding New Documentation
 
@@ -167,6 +191,12 @@ description: MicYou quick start guide with detailed installation and configurati
 - Markdown files use frontmatter for page configuration
 - Components use Vue 3 Composition API
 - Follow VitePress official documentation standards
+- Use Biome for code formatting and linting
+
+## Git Hooks
+
+- Husky is configured for git hooks
+- lint-staged runs Biome format on staged files before commit
 
 ## Notes
 
