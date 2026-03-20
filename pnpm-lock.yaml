@@ -14,6 +14,9 @@ importers:
       '@theojs/lumen':
         specifier: ^6.4.5
         version: 6.4.5(vue@3.5.30(typescript@5.9.3))
+      marked:
+        specifier: ^17.0.4
+        version: 17.0.4
       vue:
         specifier: ^3.5.30
         version: 3.5.30(typescript@5.9.3)

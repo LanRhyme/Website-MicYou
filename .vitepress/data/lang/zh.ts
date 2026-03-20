@@ -59,6 +59,12 @@ export const download = {
 	copied: "已复制",
 };
 
+// Changelog 组件翻译
+export const changelog = {
+	loading: "加载中...",
+	error: "加载失败",
+};
+
 // 页脚翻译
 export const footer = {
 	project: "项目",

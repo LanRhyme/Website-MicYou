@@ -27,6 +27,13 @@ export const downloadTranslations = {
 	"zh-TW": zh_tw.download,
 };
 
+// Changelog 组件翻译
+export const changelogTranslations = {
+	"zh-CN": zh.changelog,
+	en: en.changelog,
+	"zh-TW": zh_tw.changelog,
+};
+
 // 主题配置翻译
 export const themeConfigTranslations = {
 	"zh-CN": zh.themeConfig,

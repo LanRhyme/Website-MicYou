@@ -59,6 +59,12 @@ export const download = {
 	copied: "已複製",
 };
 
+// Changelog 組件翻譯
+export const changelog = {
+	loading: "載入中...",
+	error: "載入失敗",
+};
+
 // 頁腳翻譯
 export const footer = {
 	project: "專案",

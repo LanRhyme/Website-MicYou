@@ -11,8 +11,7 @@
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"prepare": "husky",
-		"fetch:ghdata": "npx tsx scripts/fetch-gh-data.ts",
-		"fetch:changelog": "npx tsx scripts/fetch-changelog.ts"
+		"fetch:ghdata": "npx tsx scripts/fetch-gh-data.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -32,6 +31,7 @@
 	"dependencies": {
 		"@biomejs/biome": "^2.4.7",
 		"@theojs/lumen": "^6.4.5",
+		"marked": "^17.0.4",
 		"vue": "^3.5.30"
 	}
 }

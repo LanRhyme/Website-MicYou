@@ -59,6 +59,12 @@ export const download = {
 	copied: "Copied",
 };
 
+// Changelog component translations
+export const changelog = {
+	loading: "Loading...",
+	error: "Failed to load",
+};
+
 // Footer translations
 export const footer = {
 	project: "Project",

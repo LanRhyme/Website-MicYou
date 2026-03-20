@@ -15,6 +15,7 @@ import {
 } from "@theojs/lumen";
 import { getFooterData, type Lang } from "../data/i18n";
 import Contributors from "./components/ContributorsCards/Contributors.vue";
+import ChangelogViewer from "./components/ChangelogViewer/ChangelogViewer.vue";
 import DownloadSection from "./components/DownloadSection/DownloadSection.vue";
 import UmamiStats from "./components/UmamiStats/UmamiStats.vue";
 import "./style.css";
@@ -64,6 +65,7 @@ export default {
 		app.component("Pill", Pill);
 		app.component("Copy", CopyText);
 		app.component("Contributors", Contributors);
+		app.component("ChangelogViewer", ChangelogViewer);
 		app.component("DownloadSection", DownloadSection);
 		app.component("UmamiStats", UmamiStats);
 		// 注册 Umami Analytics 插件 - 延迟加载优化 INP
