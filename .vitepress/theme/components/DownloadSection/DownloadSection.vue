@@ -12,17 +12,6 @@ const t = computed(
 const version = ref(ghdata.version);
 const copied = ref<string | null>(null);
 
-const changelogPath = computed(() => {
-	switch (lang.value) {
-		case "en":
-			return "/en/changelog";
-		case "zh-TW":
-			return "/zh-TW/changelog";
-		default:
-			return "/changelog";
-	}
-});
-
 const platforms = [
 	{
 		name: "Windows",
@@ -104,7 +93,7 @@ const copyCmd = async (cmd: string) => {
     </div>
 
     <p class="notes">
-      <a :href="changelogPath">{{ t.viewReleaseNotes }}</a>
+      <a href="https://github.com/LanRhyme/MicYou/releases/latest" target="_blank">{{ t.viewReleaseNotes }}</a>
     </p>
   </div>
 </template>
