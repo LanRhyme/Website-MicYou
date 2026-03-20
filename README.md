@@ -12,7 +12,7 @@ Transform your Android device into a high-quality microphone for PC
 [![Vue][badge-vue]][vue-url]
 [![pnpm][badge-pnpm]][pnpm-url]
 
-[Live Site](https://lanrhyme.github.io/Website-MicYou/) | [Main Project](https://github.com/LanRhyme/MicYou) | [Telegram](https://t.me/MicYouChannel) | [Report Issues](https://github.com/LanRhyme/Website-MicYou/issues)
+[Live Site][live-site] | [Main Project][main-project] | [Telegram][telegram] | [Report Issues][report-issues]
 
 </div>
 
@@ -103,7 +103,7 @@ Website-MicYou/
 
 The site is automatically deployed to GitHub Pages when changes are pushed to the `main` branch.
 
-**Live Site**: [https://lanrhyme.github.io/Website-MicYou/](https://lanrhyme.github.io/Website-MicYou/)
+[Live Site](live-site) <- ***Click Me!***
 
 ## Contributing
 
@@ -144,3 +144,7 @@ Copyright © 2026 LanRhyme
 [vitepress-url]: https://vitepress.dev/
 [vue-url]: https://vuejs.org/
 [pnpm-url]: https://pnpm.io/
+[live-site]: https://micyou.top/
+[main-project]: https://github.com/LanRhyme/MicYou
+[telegram]: https://t.me/MicYouChannel
+[report-issues]: https://github.com/LanRhyme/Website-MicYou/issues
