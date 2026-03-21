@@ -134,6 +134,15 @@ export function getFooterData(): FooterData {
 			startYear: 2026,
 			text: footer.mitLicensed,
 		},
+		beian: {
+			showIcon: true,
+			icp: {
+				number: "萌ICP备20261069号",
+				link: "https://icp.gov.moe/?keyword=20261069",
+				image: "https://icp.gov.moe/images/03.svg",
+				target: "_blank",
+			},
+		},
 		group: [
 			{
 				icon: {
