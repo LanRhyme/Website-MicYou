@@ -16,8 +16,6 @@ Transform your Android device into a high-quality microphone for PC
 
 </div>
 
----
-
 ## Features
 
 - **Multi-language Support** - Simplified Chinese, English, and Traditional Chinese
