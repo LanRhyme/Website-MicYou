@@ -2,7 +2,7 @@
  
 # MicYou Website
   
-<img src="https://socialify.git.ci/MicYou-Dev/Website-MicYou/image?custom_description=Offical+Website+of+MicYou&description=1&issues=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FMicYou-Dev%2FWebsite-MicYou%2Frefs%2Fheads%2Fmain%2Fsrc%2Fpublic%2Fmicyou.svg&name=1&owner=1&pulls=1&stargazers=1&theme=Auto" alt="Website-MicYou"/>
+<img src="https://socialify.git.ci/MicYou-Dev/Website-MicYou/image?description=1&issues=1&language=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FMicYou-Dev%2FWebsite-MicYou%2Frefs%2Fheads%2Fmain%2Fsrc%2Fpublic%2Fmicyou.svg&name=1&owner=1&pulls=1&stargazers=1&theme=Auto" alt="Website-MicYou"/>
 
 ---
 
