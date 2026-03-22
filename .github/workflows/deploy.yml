@@ -87,10 +87,6 @@ jobs:
           name: dist
           path: dist
 
-      - name: Install vercel
-        run: pnpm add vercel
-
       - name: Deploy to Vercel
         run: |
-          cd dist
-          pnpm exec vercel --token=${{ secrets.VERCEL_TOKEN }} --yes --prod --prebuilt
+          npx vercel deploy dist --token=${{ secrets.VERCEL_TOKEN }} --yes --prod --prebuilt
