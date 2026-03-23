@@ -1,9 +1,14 @@
 // https://vitepress.dev/guide/custom-theme
 import type { EnhanceAppContext, Theme } from "vitepress";
 import { useData } from "vitepress";
-import DefaultTheme from "vitepress/theme";
+import DefaultTheme from "vitepress/theme-without-fonts";
 import { h } from "vue";
 import "@theojs/lumen/style";
+import "@fontsource/noto-sans/latin.css";
+import "@fontsource/noto-sans-sc/400.css";
+import "@fontsource/noto-sans-sc/700.css";
+import "@fontsource/noto-sans-tc/400.css";
+import "@fontsource/noto-sans-tc/700.css";
 import {
 	BoxCube,
 	Card,
