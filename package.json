@@ -11,7 +11,8 @@
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"prepare": "husky",
-		"fetch:ghdata": "npx tsx scripts/fetch-gh-data.ts"
+		"fetch:ghdata": "npx tsx scripts/fetch-gh-data.ts",
+		"llms:generate": "npx tsx scripts/generate-llms-txt.ts"
 	},
 	"keywords": [],
 	"author": "",

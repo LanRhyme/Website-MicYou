@@ -1,0 +1,58 @@
+# MicYou
+
+> MicYou 将 Android 设备转变为 PC 的高质量麦克风，支持 Wi-Fi、USB、蓝牙多种连接模式，提供专业音频处理功能。
+
+## What is MicYou?
+
+MicYou 是一款跨平台音频传输应用，可以将 Android 手机变成电脑的高质量麦克风。
+
+核心功能：
+- 多种连接模式：Wi-Fi、USB (ADB/AOA)、蓝牙
+- 专业音频处理：噪声抑制、自动增益控制 (AGC)、去混响
+- 虚拟麦克风支持：配合 VB-Cable 作为系统麦克风输入
+- 跨平台：支持 Windows、Linux、macOS
+
+## Documentation
+
+### 简体中文
+
+- [更新日志 - MicYou 版本历史](https://micyou.top/changelog): MicYou 更新日志，查看所有版本的新功能、改进和修复内容。
+- [faq](https://micyou.top/docs/faq)
+- [quick-start](https://micyou.top/docs/quick-start)
+- [download](https://micyou.top/download)
+- [video](https://micyou.top/video)
+
+### English
+
+- [MicYou - Turn Your Phone into a PC Microphone](https://micyou.top/en/): MicYou is a high quality, low latency, cross-platform audio transmission solution that supports Wi-Fi, USB, and Bluetooth connections to turn your Android phone into a PC microphone.
+- [Changelog - MicYou Version History](https://micyou.top/en/changelog): MicYou changelog with all version updates, new features, improvements and bug fixes.
+- [FAQ - MicYou Troubleshooting](https://micyou.top/en/docs/faq): MicYou frequently asked questions including device connection issues, firewall settings, ADB configuration, and audio output troubleshooting.
+- [Quick Start - MicYou Installation Guide](https://micyou.top/en/docs/quick-start): MicYou quick start guide with detailed instructions on how to install and configure MicYou on Windows, macOS, Linux, and Android to turn your phone into a PC microphone.
+- [Download MicYou - Windows, macOS, Linux, Android](https://micyou.top/en/download): Download MicYou client for Windows, macOS, Linux desktop and Android mobile to turn your phone into a PC microphone.
+- [Video Tutorials - MicYou Guide](https://micyou.top/en/video): MicYou video tutorials including project introduction, whats new, and usage guides to help you get started turning your phone into a PC microphone.
+
+### 繁體中文
+
+- [MicYou - 將手機變成電腦麥克風](https://micyou.top/zh-TW/): MicYou 是一款高品質、低延遲、跨平台的音訊傳輸解決方案，支援 Wi-Fi、USB 和藍牙連線，可將 Android 手機變成電腦麥克風。
+- [更新日誌 - MicYou 版本歷史](https://micyou.top/zh-TW/changelog): MicYou 更新日誌，查看所有版本的新功能、改進和修復內容。
+- [常見問題 - MicYou 故障排除](https://micyou.top/zh-TW/docs/faq): MicYou 常見問題解答，包括裝置連線問題、防火牆設定、ADB 設定和音訊輸出故障排除等。
+- [快速開始 - MicYou 安裝設定指南](https://micyou.top/zh-TW/docs/quick-start): MicYou 快速開始指南，詳細介紹如何在 Windows、macOS、Linux 和 Android 上安裝和設定 MicYou，將手機變成電腦麥克風。
+- [下載 MicYou - Windows、macOS、Linux、Android](https://micyou.top/zh-TW/download): 下載 MicYou 用戶端，支援 Windows、macOS、Linux 桌面端和 Android 行動端，將手機變成電腦麥克風。
+- [影片教學 - MicYou 使用教學](https://micyou.top/zh-TW/video): MicYou 影片教學，包含專案簡介、更新介紹和使用教學，幫助您快速上手將手機變成電腦麥克風。
+
+## Quick Start
+
+1. 从 GitHub Releases 下载桌面端应用
+2. 下载并安装 Android APK
+3. 确保设备在同一网络（Wi-Fi 模式）或通过 USB 连接
+4. 在两端选择相同的连接模式
+
+## Downloads
+
+- [GitHub Releases](https://github.com/LanRhyme/MicYou/releases)
+- [下载页面](https://micyou.top/download)
+
+## Links
+
+- [GitHub 仓库](https://github.com/LanRhyme/MicYou)
+- [Telegram 频道](https://t.me/MicYouChannel)

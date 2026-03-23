@@ -37,6 +37,9 @@ jobs:
         run: pnpm fetch:ghdata
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Generate LLMs TXT
+        run: pnpm llms:generate
 
       - name: Build with VitePress
         run: pnpm build

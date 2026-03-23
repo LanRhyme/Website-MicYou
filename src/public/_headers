@@ -1,0 +1,14 @@
+# 允许 AI 爬虫访问 llms 文件
+/llms.txt
+  Access-Control-Allow-Origin: *
+  X-Robots-Tag: all
+
+/llms-full.txt
+  Access-Control-Allow-Origin: *
+  X-Robots-Tag: all
+
+# 其他文件保持默认
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block

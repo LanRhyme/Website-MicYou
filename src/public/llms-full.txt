@@ -1,0 +1,898 @@
+# MicYou
+
+> MicYou 将 Android 设备转变为 PC 的高质量麦克风，支持 Wi-Fi、USB、蓝牙多种连接模式，提供专业音频处理功能。
+
+URL: https://micyou.top
+
+
+---
+
+# 简体中文
+
+
+---
+
+# 更新日志 - MicYou 版本历史
+
+URL: https://micyou.top/changelog
+Description: MicYou 更新日志，查看所有版本的新功能、改进和修复内容。
+
+<ChangelogViewer />
+
+
+---
+
+# faq
+
+URL: https://micyou.top/docs/faq
+
+---
+title: 常见问题 - MicYou 故障排除
+description: MicYou 常见问题解答，包括设备连接问题、防火墙设置、ADB 配置和音频输出故障排除等。
+keywords: MicYou常见问题,MicYou故障排除,MicYou无法连接,防火墙设置,ADB问题,音频问题
+---
+
+# 常见问题
+
+## 无法连接设备
+
+### Wi-Fi 模式
+
+1. **确认防火墙设置**
+
+   Windows 系统可能会拦截入站连接。请按照以下方法手动放行端口：
+
+   1. 按下 `Win+R`，输入 `cmd`，同时按住 `Ctrl+Shift`，点击「确定」以管理员身份运行命令提示符。
+   2. 输入以下命令：
+
+      ```cmd
+      netsh advfirewall firewall add rule name="Allow 6666" dir=in action=allow protocol=TCP localport=6000
+      ```
+
+      > MicYou 默认使用端口 `6000` 建立连接，如需更改请修改上述命令中的端口号。
+
+      若未出现任何提示，表示操作成功，可以重新尝试连接。
+
+2. **检查设备是否在同一子网**
+
+   - 确保 Android 手机和 PC 连接的是**同一个**路由器的 Wi-Fi
+   - 确保路由器已关闭 **AP 隔离** 或 **网络设备隔离** 功能（详情请参阅路由器说明书）
+
+> [!TIP]
+> 高级用户可尝试使用 Nmap 或 ping 等工具检查连接性
+
+### USB (ADB) 模式
+
+1. **开启开发者选项**
+
+   > 此处列出的步骤可能不适用于所有设备，**建议使用搜索引擎**查找适用于您设备的 ADB 教程。
+
+   - 在手机设置中找到"关于本机"，连续点击 7 次"系统版本号"开启开发者选项
+   - 进入开发者选项，开启 **USB 调试**
+
+2. **确认 ADB 连接**
+
+   > 电脑端需要安装 ADB 工具（参见第 1 步：下载 ADB）。
+
+   运行以下命令，确认有且仅有一个设备已连接：
+
+   ```bash
+   adb devices
+   ```
+
+   如果列出了多个设备，则需要指定目标设备进行端口转发：
+
+   ```bash
+   adb -s <设备序列号> reverse tcp:6000 tcp:6000
+   ```
+
+   > 设备序列号可在 `adb devices` 的输出中找到。
+
+## 连接设备后无声音输出
+
+请确保 VB-Audio 驱动已正确安装，且以下设备均**未被禁用**：
+
+- **输出设备**：CABLE Input (VB-Audio Virtual Cable)
+- **输入设备**：CABLE Output (VB-Audio Virtual Cable)
+
+检查方式：打开「设置」> 「声音」，验证两个设备均为**已启用**状态：
+
+![输入设备](/input-device.png)
+
+![输出设备](/output-device.png)
+
+
+---
+
+# quick-start
+
+URL: https://micyou.top/docs/quick-start
+
+---
+title: 快速开始 - MicYou 安装配置指南
+description: MicYou 快速开始指南，详细介绍如何在 Windows、macOS、Linux 和 Android 上安装和配置 MicYou，将手机变成电脑麦克风。
+keywords: MicYou安装,MicYou配置,MicYou快速开始,ADB配置,USB调试,Wi-Fi连接,蓝牙连接
+---
+
+# 快速开始
+
+## 1. 下载 ADB
+
+从 [Android Developers](https://developer.android.com/tools/releases/platform-tools?hl=zh_cn) 下载，或使用系统包管理器：
+
+- <Copy text="winget install -e --id Google.PlatformTools" type="info" />
+- <Copy text="sudo apt install android-tools-adb" type="info" />
+- <Copy text="sudo pacman -S android-tools" type="info" />
+
+其他平台请参考 [官方文档](https://developer.android.com/tools/releases/platform-tools)
+
+## 2. 启用 USB 调试
+
+以 OneUI 8 为例：
+
+1. 进入「设置」> 「关于手机」
+2. 点击「软件信息」，找到「编译编号」，点击 7 次以启用开发者选项
+3. 返回「设置」> 「开发者选项」，启用「USB 调试」
+
+## 3. 使用 USB 连接
+
+请使用稳定的数据线，并确保桌面端和 Android 客户端都将连接模式切换为 `USB`。
+
+## 4. 使用 Wi-Fi 连接
+
+请确保 Android 设备与 PC 处于同一网络环境，并且桌面端和 Android 客户端都将连接模式切换为 `Wi-Fi`。
+
+## Android
+
+1. 下载并安装 APK 到您的 Android 设备
+2. 确保您的设备与 PC 处于同一网络（Wi-Fi 模式），或通过 USB 连接
+
+## Windows
+
+1. 运行桌面端应用程序
+2. 配置连接模式以匹配 Android 应用
+
+## macOS
+
+> [!IMPORTANT]
+> 如果您使用的是 Apple Silicon Mac，未启用 Rosetta 2 时，蓝牙模式可能无法正常使用。
+
+为了获得更好的使用体验，建议通过 Homebrew 安装以下依赖：
+
+```bash
+brew install blackhole-2ch --cask
+brew install switchaudio-osx --formulae
+```
+
+**BlackHole 必须安装**。若未安装 Homebrew，请前往 https://existential.audio/blackhole/download/ 下载并安装。无论通过何种方式安装，完成后请务必重启电脑。
+
+在 [GitHub Releases](https://github.com/LanRhyme/MicYou/releases) 下载应用并安装到"应用程序"目录后，首次启动可能会被 Gatekeeper 拦截。
+
+若提示"不受信任的开发者"，请前往 **"系统设置"/"系统偏好设置" > "隐私与安全"** 允许应用运行。
+
+若提示"应用已损坏"，请执行以下命令：
+```bash
+sudo xattr -r -d com.apple.quarantine /Applications/MicYou.app
+```
+
+## Linux
+
+### 使用预编译包（推荐）
+预编译包可在 [GitHub Releases](https://github.com/LanRhyme/MicYou/releases) 下载。
+
+**DEB 包（适用于 Debian/Ubuntu/Mint 等发行版）：**
+```bash
+# 从 GitHub Releases 下载 .deb 包
+sudo dpkg -i MicYou-*.deb
+# 如果缺少依赖：
+sudo apt install -f
+```
+
+**RPM 包（适用于 Fedora/RHEL/openSUSE 等发行版）：**
+```bash
+# 从 GitHub Releases 下载 .rpm 包
+sudo rpm -i MicYou-*.rpm
+# 或者使用 dnf/yum：
+sudo dnf install MicYou-*.rpm
+```
+
+**AUR 仓库（适用于 Arch Linux 及其衍生发行版）：**
+```bash
+# 克隆 AUR 仓库并自动安装软件包及其依赖
+git clone https://aur.archlinux.org/micyou-bin.git
+cd micyou-bin
+makepkg -si
+
+# 或者使用 paru 等 AUR helpers
+paru -S micyou-bin
+```
+
+**运行应用：**
+```bash
+# 安装后可以从应用菜单运行 MicYou
+# 或者从终端运行：
+MicYou
+```
+
+
+---
+
+# download
+
+URL: https://micyou.top/download
+
+---
+layout: page
+title: 下载 MicYou - Windows、macOS、Linux、Android
+description: 下载 MicYou 客户端，支持 Windows、macOS、Linux 桌面端和 Android 移动端，将手机变成电脑麦克风。
+keywords: MicYou下载,MicYou安装,Android麦克风下载,手机麦克风下载,Windows麦克风,Linux麦克风,macOS麦克风
+---
+
+<DownloadSection />
+
+
+---
+
+# video
+
+URL: https://micyou.top/video
+
+---
+aside: false
+title: 视频教程 - MicYou 使用教程
+description: MicYou 视频教程，包含项目简介、更新介绍和使用教程，帮助您快速上手将手机变成电脑麦克风。
+keywords: MicYou教程,MicYou视频,MicYou使用教程,手机麦克风教程,Android麦克风教程
+---
+
+# 视频教程
+
+<div class="video-wrapper">
+<div class="video-grid">
+
+<div class="video-item">
+  <span>项目简介</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1oucszjE5u&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 项目简介视频"></iframe>
+</div>
+
+<div class="video-item">
+  <span>更新介绍</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1KufpBQEtT&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 更新介绍视频"></iframe>
+</div>
+
+<div class="video-item">
+  <span>使用教程 (Bilibili)</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1MpNKz8ELw&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 使用教程 - Bilibili"></iframe>
+</div>
+
+<div class="video-item">
+  <span>使用教程 (YouTube)</span>
+  <iframe src="https://www.youtube.com/embed/x6LQIMbf36w" frameborder="0" allowfullscreen="true" title="MicYou 使用教程 - YouTube"></iframe>
+</div>
+
+</div>
+</div>
+
+<style>
+.video-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.video-item span {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.video-item iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+---
+
+# English
+
+
+---
+
+# MicYou - Turn Your Phone into a PC Microphone
+
+URL: https://micyou.top/en/
+Description: MicYou is a high quality, low latency, cross-platform audio transmission solution that supports Wi-Fi, USB, and Bluetooth connections to turn your Android phone into a PC microphone.
+
+<Contributors />
+
+
+---
+
+# Changelog - MicYou Version History
+
+URL: https://micyou.top/en/changelog
+Description: MicYou changelog with all version updates, new features, improvements and bug fixes.
+
+<ChangelogViewer />
+
+
+---
+
+# FAQ - MicYou Troubleshooting
+
+URL: https://micyou.top/en/docs/faq
+Description: MicYou frequently asked questions including device connection issues, firewall settings, ADB configuration, and audio output troubleshooting.
+
+## FAQ
+
+### Cannot connect to device
+
+#### Wi-Fi Mode
+
+1. **Check Firewall Settings**
+
+   Windows may block inbound connections. Please follow these steps to manually allow the port:
+
+   1. Press `Win+R`, type `cmd`, then hold `Ctrl+Shift` and click "OK" to run Command Prompt as administrator.
+   2. Enter the following command:
+
+      ```cmd
+      netsh advfirewall firewall add rule name="Allow 6666" dir=in action=allow protocol=TCP localport=6000
+      ```
+
+      > MicYou uses port `6000` by default for connection; you can change it if needed.
+
+      If no message appears, the operation was successful. Try connecting again.
+
+2. **Check if devices are on the same subnet**
+
+   - Ensure the Android phone and PC are connected to the **same** Wi-Fi router.
+   - Ensure that **AP Isolation** or **Network Device Isolation** features are disabled in router settings (refer to your router's manual).
+
+> [!TIP]
+> Advanced users can try using tools like Nmap or ping to check connectivity.
+
+#### USB (ADB) Mode
+
+1. **Enable Developer Options**
+
+   > The steps below may vary depending on your device. **Please use a search engine** to find instructions for your specific device.
+
+   - Find "About phone" in phone settings, tap "Build number" 7 times to enable Developer Options.
+   - Enter Developer Options and enable **USB debugging**.
+
+2. **Confirm ADB connection**
+
+   > ADB tools must be installed on the computer (see Step 1: Download ADB above).
+
+   Run the following command to verify that one and only one device is connected:
+
+   ```bash
+   adb devices
+   ```
+
+   If multiple devices are listed, specify the target device for port forwarding:
+
+   ```bash
+   adb -s <device_serial_number> reverse tcp:6000 tcp:6000
+   ```
+
+   > The device serial number can be found in the output of `adb devices`.
+
+### No audio output after connecting
+
+Please ensure that the VB-Audio driver is correctly installed and that the following devices are **not disabled**:
+
+- **Output Device**: CABLE Input (VB-Audio Virtual Cable)
+- **Input Device**: CABLE Output (VB-Audio Virtual Cable)
+
+To check: Open Settings > Sound, and verify both devices are **Enabled**:
+
+![Input device](/input-device.png)
+
+![Output device](/output-device.png)
+
+
+---
+
+# Quick Start - MicYou Installation Guide
+
+URL: https://micyou.top/en/docs/quick-start
+Description: MicYou quick start guide with detailed instructions on how to install and configure MicYou on Windows, macOS, Linux, and Android to turn your phone into a PC microphone.
+
+## Quick Start
+
+### 1. Download ADB
+
+Download from [Android Developers](https://developer.android.com/tools/releases/platform-tools?hl=zh_cn), or install via package manager:
+
+- <Copy text="winget install -e --id Google.PlatformTools" type="info" />
+- <Copy text="sudo apt install android-tools-adb" type="info" />
+- <Copy text="sudo pacman -S android-tools" type="info" />
+
+Other platforms, please refer to [official documentation](https://developer.android.com/tools/releases/platform-tools)
+
+### 2. Enable USB Debugging
+
+Using OneUI 8 as an example:
+
+1. Go to Settings > About phone
+2. Tap Software information, find Build number and tap it 7 times to enable Developer Options
+3. Go back to Settings > Developer options, and enable USB debugging
+
+### 3. USB connection
+
+Use a **stable** data cable, and set the connection mode to `USB` on **both** the desktop app and the Android app.
+
+### 4. Wi-Fi connection
+
+Ensure your Android device and PC are on the **same network**, and set the connection mode to `Wi-Fi` on **both** the desktop app and the Android app.
+
+### Android
+
+1. Download and install the APK on your Android device.
+2. Ensure your device is on the same network as your PC (for Wi-Fi) or connected via USB.
+
+### Windows
+
+1. Run the desktop application.
+2. Configure the connection mode to match the Android app.
+
+### macOS
+
+> [!IMPORTANT]
+> If you are using an Apple Silicon Mac, Bluetooth mode cannot be used without Rosetta 2 translation.
+
+For the best experience, install the following dependencies via Homebrew:
+
+```bash
+brew install blackhole-2ch --cask
+brew install switchaudio-osx --formulae
+```
+
+> **BlackHole** is required (virtual audio driver). If you do not have Homebrew, go to https://existential.audio/blackhole/download/ to download the installer.
+
+Please restart your Mac after installation.
+
+After downloading the app from [GitHub Releases](https://github.com/LanRhyme/MicYou/releases) and installing it in your Applications folder, Gatekeeper may block it during first use:
+
+- If prompted with "Untrusted Developer," navigate to **System Settings/System Preferences > Privacy & Security** to allow the app to run.
+- If prompted with "The application is damaged," execute the following command:
+
+```bash
+sudo xattr -r -d com.apple.quarantine /Applications/MicYou.app
+```
+
+### Linux
+
+#### Using pre-built packages (recommended)
+
+Pre-built packages are available in [GitHub Releases](https://github.com/LanRhyme/MicYou/releases). Choose the appropriate package for your Linux distribution.
+
+**DEB package (Debian/Ubuntu/Mint etc.):**
+
+```bash
+sudo dpkg -i MicYou-*.deb
+# If dependencies are missing:
+sudo apt install -f
+```
+
+**RPM package (Fedora/RHEL/openSUSE etc.):**
+
+```bash
+sudo rpm -i MicYou-*.rpm
+# Or use dnf/yum:
+sudo dnf install MicYou-*.rpm
+```
+
+**AUR (Arch Linux and derivatives):**
+
+```bash
+git clone https://aur.archlinux.org/micyou-bin.git
+cd micyou-bin
+makepkg -si
+```
+
+Or use an AUR helper like paru:
+
+```bash
+paru -S micyou-bin
+```
+
+**Run the application:**
+
+From the application menu, or run from terminal:
+
+```bash
+MicYou
+```
+
+
+---
+
+# Download MicYou - Windows, macOS, Linux, Android
+
+URL: https://micyou.top/en/download
+Description: Download MicYou client for Windows, macOS, Linux desktop and Android mobile to turn your phone into a PC microphone.
+
+<DownloadSection />
+
+
+---
+
+# Video Tutorials - MicYou Guide
+
+URL: https://micyou.top/en/video
+Description: MicYou video tutorials including project introduction, whats new, and usage guides to help you get started turning your phone into a PC microphone.
+
+# Video Tutorials
+
+<div class="video-wrapper">
+<div class="video-grid">
+
+<div class="video-item">
+  <span>Introduction</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1oucszjE5u&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou Introduction Video"></iframe>
+</div>
+
+<div class="video-item">
+  <span>What's New</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1KufpBQEtT&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou What's New Video"></iframe>
+</div>
+
+<div class="video-item">
+  <span>Tutorial (Bilibili)</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1MpNKz8ELw&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou Tutorial - Bilibili"></iframe>
+</div>
+
+<div class="video-item">
+  <span>Tutorial (YouTube)</span>
+  <iframe src="https://www.youtube.com/embed/x6LQIMbf36w" frameborder="0" allowfullscreen="true" title="MicYou Tutorial - YouTube"></iframe>
+</div>
+
+</div>
+</div>
+
+<style>
+.video-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.video-item span {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.video-item iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+
+---
+
+# 繁體中文
+
+
+---
+
+# MicYou - 將手機變成電腦麥克風
+
+URL: https://micyou.top/zh-TW/
+Description: MicYou 是一款高品質、低延遲、跨平台的音訊傳輸解決方案，支援 Wi-Fi、USB 和藍牙連線，可將 Android 手機變成電腦麥克風。
+
+<Contributors />
+
+
+---
+
+# 更新日誌 - MicYou 版本歷史
+
+URL: https://micyou.top/zh-TW/changelog
+Description: MicYou 更新日誌，查看所有版本的新功能、改進和修復內容。
+
+<ChangelogViewer />
+
+
+---
+
+# 常見問題 - MicYou 故障排除
+
+URL: https://micyou.top/zh-TW/docs/faq
+Description: MicYou 常見問題解答，包括裝置連線問題、防火牆設定、ADB 設定和音訊輸出故障排除等。
+
+# 常見問題
+
+## 無法連線裝置
+
+### Wi-Fi 模式
+
+1. **確認防火牆設定**
+
+   Windows 系統可能會攔截入站連線。請按照以下步驟手動放行連接埠：
+
+   1. 按下 `Win+R`，輸入 `cmd`，同時按住 `Ctrl+Shift`，點選「確定」以系統管理員身分執行命令提示字元
+   2. 輸入以下命令：
+
+      ```cmd
+      netsh advfirewall firewall add rule name="Allow 6666" dir=in action=allow protocol=TCP localport=6000
+      ```
+
+      > MicYou 預設使用連接埠 `6000` 建立連線，如需更改請修改上述命令中的連接埠號。
+
+      若未出現任何訊息，表示操作成功，可嘗試重新連線。
+
+2. **檢查裝置是否在同一子網路**
+
+   - 確保 Android 手機與 PC 連接的是**同一個**路由器的 Wi-Fi
+   - 確保路由器已關閉 **AP 隔離** 或 **網路裝置隔離** 功能（詳情請參考路由器說明書）
+
+> [!TIP]
+> 進階使用者可使用 Nmap 或 ping 等工具檢查連線性。
+
+### USB (ADB) 模式
+
+1. **開啟開發者選項**
+
+   > 不同裝置的步驟可能不同，**建議使用搜尋引擎**搜尋為您的裝置開啟 ADB 的教學。
+
+   - 在手機設定中找到「關於本機」，連續點擊 7 次「系統版本號」以開啟開發者選項
+   - 進入開發者選項，開啟 **USB 偵錯**
+
+2. **確認 ADB 連線**
+
+   > 電腦端需安裝 ADB 工具（參見第 1 步：下載 ADB）。
+
+   執行以下命令確認有且僅有一個裝置已連線：
+
+   ```bash
+   adb devices
+   ```
+
+   若列出多個裝置，需指定目標裝置進行連接埠轉發：
+
+   ```bash
+   adb -s <裝置序列號> reverse tcp:6000 tcp:6000
+   ```
+
+   > 裝置序列號可在 `adb devices` 的輸出中找到。
+
+## 連線裝置後無聲音輸出
+
+請確保 VB-Audio 驅動已正確安裝，且以下裝置未被停用：
+
+- **輸出裝置**：CABLE Input (VB-Audio Virtual Cable)
+- **輸入裝置**：CABLE Output (VB-Audio Virtual Cable)
+
+檢查方式：開啟「設定」> 「聲音」，確保以下兩項均為**已啟用**狀態：
+
+![輸入裝置](/input-device.png)
+
+![輸出裝置](/output-device.png)
+
+
+---
+
+# 快速開始 - MicYou 安裝設定指南
+
+URL: https://micyou.top/zh-TW/docs/quick-start
+Description: MicYou 快速開始指南，詳細介紹如何在 Windows、macOS、Linux 和 Android 上安裝和設定 MicYou，將手機變成電腦麥克風。
+
+# 快速開始
+
+## 1. 下載 ADB
+
+從 [Android Developers](https://developer.android.com/tools/releases/platform-tools?hl=zh_cn) 下載，或使用套件管理工具：
+
+- <Copy text="winget install -e --id Google.PlatformTools" type="info" />
+- <Copy text="sudo apt install android-tools-adb" type="info" />
+- <Copy text="sudo pacman -S android-tools" type="info" />
+
+其他平台請參考 [官方文檔](https://developer.android.com/tools/releases/platform-tools)
+
+大多數情況下 ADB 會自動加入系統環境變數，如未加入請自行設定。
+
+## 2. 啟用 USB 偵錯
+
+以 OneUI 8 為例：
+
+1. 進入「設定」> 「關於手機」
+2. 點選「軟體資訊」，找到「編譯編號」，連點 7 次以啟用開發者選項
+3. 返回「設定」> 「開發者選項」，啟用「USB 偵錯」
+
+## 3. 使用 USB 連線
+
+請使用品質穩定的傳輸線，並在桌面端與 Android 應用同時將連線模式切換為 `USB`。
+
+## 4. 使用 Wi‑Fi 連線
+
+請確保 Android 裝置與電腦位於同一網路，並在桌面端與 Android 應用同時切換成 `Wi‑Fi` 模式。
+
+## Android
+
+1. 下載並安裝 APK 到您的 Android 裝置
+2. 確保您的裝置與 PC 位於同一網路（Wi-Fi 模式），或透過 USB 連線
+
+## Windows
+
+1. 執行桌面端應用程式
+2. 設定連線模式以匹配 Android 應用
+
+
+## macOS
+
+> [!IMPORTANT]
+> 若您使用 Apple Silicon（如 M1/M2）Mac，未啟用 Rosetta 2 時，藍牙模式可能無法正常使用。
+
+為了獲得更佳的使用體驗，建議透過 Homebrew 安裝以下套件：
+
+```bash
+brew install blackhole-2ch --cask
+brew install switchaudio-osx --formulae
+```
+
+> **BlackHole** 為必要軟體（虛擬音訊驅動程式）。若未安裝 Homebrew，可至 https://existential.audio/blackhole/download/ 下載安裝程式。
+
+安裝完成後請重新啟動電腦。
+
+從 [GitHub Releases](https://github.com/LanRhyme/MicYou/releases) 下載並安裝到「應用程式」資料夾。首次開啟可能會被 Gatekeeper 攔截：
+
+- 若提示「不受信任的開發者」，請至「系統設定」> 「隱私權與安全性」允許應用程式
+- 若顯示「應用程式已損毀」，在終端執行：
+
+```bash
+sudo xattr -r -d com.apple.quarantine /Applications/MicYou.app
+```
+
+## Linux
+
+### 使用預編譯套件（推薦）
+
+預編譯套件可在 [GitHub Releases](https://github.com/LanRhyme/MicYou/releases) 下載。根據您的 Linux 發行版選擇相應的套件。
+
+**DEB 套件（Debian/Ubuntu/Mint 等）：**
+
+```bash
+sudo dpkg -i MicYou-*.deb
+# 如果缺少依賴：
+sudo apt install -f
+```
+
+**RPM 套件（Fedora/RHEL/openSUSE 等）：**
+
+```bash
+sudo rpm -i MicYou-*.rpm
+# 或使用 dnf/yum：
+sudo dnf install MicYou-*.rpm
+```
+
+**AUR（Arch Linux 及衍生發行版）：**
+
+```bash
+git clone https://aur.archlinux.org/micyou-bin.git
+cd micyou-bin
+makepkg -si
+```
+
+或使用 AUR 輔助程式（如 paru）：
+
+```bash
+paru -S micyou-bin
+```
+
+**執行應用：**
+
+從應用程式選單執行，或在終端執行：
+
+```bash
+MicYou
+```
+
+
+---
+
+# 下載 MicYou - Windows、macOS、Linux、Android
+
+URL: https://micyou.top/zh-TW/download
+Description: 下載 MicYou 用戶端，支援 Windows、macOS、Linux 桌面端和 Android 行動端，將手機變成電腦麥克風。
+
+<DownloadSection />
+
+
+---
+
+# 影片教學 - MicYou 使用教學
+
+URL: https://micyou.top/zh-TW/video
+Description: MicYou 影片教學，包含專案簡介、更新介紹和使用教學，幫助您快速上手將手機變成電腦麥克風。
+
+# 影片教學
+
+<div class="video-wrapper">
+<div class="video-grid">
+
+<div class="video-item">
+  <span>專案簡介</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1oucszjE5u&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 專案簡介影片"></iframe>
+</div>
+
+<div class="video-item">
+  <span>更新介紹</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1KufpBQEtT&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 更新介紹影片"></iframe>
+</div>
+
+<div class="video-item">
+  <span>使用教學 (Bilibili)</span>
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1MpNKz8ELw&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="MicYou 使用教學 - Bilibili"></iframe>
+</div>
+
+<div class="video-item">
+  <span>使用教學 (YouTube)</span>
+  <iframe src="https://www.youtube.com/embed/x6LQIMbf36w" frameborder="0" allowfullscreen="true" title="MicYou 使用教學 - YouTube"></iframe>
+</div>
+
+</div>
+</div>
+
+<style>
+.video-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.video-item span {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.video-item iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

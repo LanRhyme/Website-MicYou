@@ -1,5 +1,5 @@
 /* MicYou 主题样式 */
-@import './blur.css';
+@import "./blur.css";
 
 html {
 	font-display: swap;
@@ -173,7 +173,6 @@ a:focus-visible {
 .divider {
 	display: none;
 }
-
 
 .dark .VPNavBar:not(.has-sidebar):not(.home.top) {
 	background-color: rgba(30, 30, 32, 0);
