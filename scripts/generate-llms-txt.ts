@@ -194,7 +194,7 @@ function generateLlmsFullTxt(docs: DocInfo[]): string {
 	lines.push("");
 	lines.push(`> ${SITE_DESCRIPTION}`);
 	lines.push("");
-	lines.push("URL: " + SITE_URL);
+	lines.push(`URL: ${SITE_URL}`);
 	lines.push("");
 
 	// 分隔符
@@ -246,7 +246,7 @@ function main() {
 	allDocs.push(...scanMarkdownFiles(zhTwDir, zhTwDir, "zh-TW"));
 
 	// 排序：按语言优先级和路径
-	const langOrder = { "zh-CN": 0, en: 1, "zh-TW": 2 };
+	const langOrder: Record<string, number> = { "zh-CN": 0, en: 1, "zh-TW": 2 };
 	allDocs.sort((a, b) => {
 		const langDiff = (langOrder[a.lang] ?? 99) - (langOrder[b.lang] ?? 99);
 		if (langDiff !== 0) return langDiff;
