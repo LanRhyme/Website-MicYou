@@ -1,47 +1,27 @@
 /**
- * 从 GitHub API 获取贡献者和发布数据，保存到 public/ghdata.json
- * 用于避免客户端 API 调用触发速率限制
+ * 从 GitHub GraphQL API 获取贡献者和发布数据，保存到 src/ghdata.json
  */
 
-import { writeFileSync, existsSync, readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { config } from "dotenv";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, "..");
-const SRC_DIR = join(ROOT, "src");
-const OUTPUT_FILE = join(SRC_DIR, "ghdata.json");
+config();
 
-const REPO_OWNER = "LanRhyme";
-const REPO_NAME = "MicYou";
-
-// 需要过滤的贡献者
+const OUTPUT_FILE = join(
+	dirname(fileURLToPath(import.meta.url)),
+	"..",
+	"src",
+	"ghdata.json",
+);
+const REPO = { owner: "LanRhyme", name: "MicYou" };
 const EXCLUDE_USERS = new Set([
 	"LanRhyme",
 	"ChinsaaWei",
 	"dependabot[bot]",
 	"crowdin-bot",
 ]);
-
-interface GitHubContributor {
-	login: string;
-	id: number;
-	avatar_url: string;
-	html_url: string;
-	contributions: number;
-}
-
-interface GitHubRelease {
-	tag_name: string;
-	name: string;
-	published_at: string;
-	html_url: string;
-	body: string;
-	assets: Array<{
-		name: string;
-		browser_download_url: string;
-	}>;
-}
 
 interface OutputData {
 	version: string;
@@ -57,185 +37,158 @@ interface OutputData {
 	fetchedAt: string;
 }
 
-async function fetchJSON<T>(
-	url: string,
-	token?: string,
-	options?: { retryOn202?: boolean },
-): Promise<T> {
-	const headers: Record<string, string> = {
-		Accept: "application/vnd.github.v3+json",
-		"User-Agent": "MicYou-Website-Build-Script",
-	};
+// 合并的 GraphQL 查询
+const QUERY = `
+  query($owner: String!, $name: String!, $after: String) {
+    repository(owner: $owner, name: $name) {
+      latestRelease {
+        tagName
+        publishedAt
+        url
+        description
+      }
+      defaultBranchRef {
+        target {
+          ... on Commit {
+            history(first: 100, after: $after) {
+              pageInfo { hasNextPage endCursor }
+              nodes {
+                author { user { login avatarUrl url } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
-	if (token) {
-		headers.Authorization = `Bearer ${token}`;
-	}
-
-	const res = await fetch(url, { headers });
-
-	// GitHub stats API 可能返回 202 Accepted，表示数据正在计算中
-	if (res.status === 202 && options?.retryOn202) {
-		return null as T; // 返回 null 让调用者处理重试
-	}
-
-	if (!res.ok) {
-		// 403 通常是速率限制，提示用户设置 token
-		if (res.status === 403) {
-			const rateLimitRemaining = res.headers.get("x-ratelimit-remaining");
-			const rateLimitReset = res.headers.get("x-ratelimit-reset");
-			let message = `GitHub API rate limit exceeded (403).`;
-			if (rateLimitRemaining === "0") {
-				message += ` Rate limit reset at: ${rateLimitReset ? new Date(Number.parseInt(rateLimitReset, 10) * 1000).toISOString() : "unknown"}`;
-			}
-			message += ` Set GH_TOKEN environment variable to increase rate limit.`;
-			throw new Error(message);
-		}
-		throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-	}
-
+async function fetchGraphQL(
+	query: string,
+	variables: Record<string, string | null>,
+	token: string,
+) {
+	const res = await fetch("https://api.github.com/graphql", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({ query, variables }),
+	});
+	if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
 	return res.json();
 }
 
-async function fetchLatestRelease(token?: string): Promise<{
-	version: string;
-	url: string;
-	date: string;
-	notes: string;
-}> {
-	const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`;
-	const release = await fetchJSON<GitHubRelease>(url, token);
-
-	return {
-		version: release.tag_name.replace(/^v/, ""),
-		url: release.html_url,
-		date: release.published_at,
-		notes: release.body || "",
-	};
-}
-
-async function fetchContributors(token?: string): Promise<
-	Array<{
-		login: string;
-		avatar_url: string;
-		html_url: string;
-		contributions: number;
-	}>
-> {
-	const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contributors`;
-	const maxRetries = 10;
-	const retryDelay = 3000; // 3 秒
-
-	for (let attempt = 1; attempt <= maxRetries; attempt++) {
-		const data = await fetchJSON<GitHubContributor[] | null>(url, token, {
-			retryOn202: true,
-		});
-
-		// 202 响应，数据正在计算中，等待后重试
-		if (data === null) {
-			console.log(
-				`Contributors data is being calculated (attempt ${attempt}/${maxRetries}), waiting...`,
-			);
-			if (attempt < maxRetries) {
-				await new Promise((resolve) => setTimeout(resolve, retryDelay));
-				continue;
-			}
-			console.warn(
-				"Max retries reached for contributors, returning empty array",
-			);
-			return [];
-		}
-
-		// 检查数据是否为数组
-		if (!Array.isArray(data)) {
-			console.warn("Contributors data is not an array, returning empty array");
-			return [];
-		}
-
-		return data
-			.filter((c) => {
-				const login = c.login;
-				return login && !EXCLUDE_USERS.has(login) && !login.includes("[bot]");
-			})
-			.sort((a, b) => b.contributions - a.contributions)
-			.map((c) => ({
-				login: c.login,
-				avatar_url: c.avatar_url,
-				html_url: c.html_url,
-				contributions: c.contributions,
-			}));
+async function main() {
+	const token = process.env.GH_TOKEN;
+	if (!token) {
+		console.error("Error: Set GH_TOKEN environment variable.");
+		process.exit(1);
 	}
 
-	return [];
-}
-
-/**
- * 比较两个数据对象是否相同（忽略 fetchedAt 字段）
- */
-function isDataEqual(
-	existing: OutputData,
-	newData: Omit<OutputData, "fetchedAt">,
-): boolean {
-	return (
-		existing.version === newData.version &&
-		existing.releaseUrl === newData.releaseUrl &&
-		existing.releaseDate === newData.releaseDate &&
-		existing.releaseNotes === newData.releaseNotes &&
-		JSON.stringify(existing.contributors) ===
-			JSON.stringify(newData.contributors)
-	);
-}
-
-async function main() {
 	console.log("Fetching GitHub data...");
 
-	// GitHub Token 可通过环境变量 GITHUB_TOKEN 设置
-	const token = process.env.GH_TOKEN;
-
 	try {
-		// 并行获取数据
-		const [release, contributors] = await Promise.all([
-			fetchLatestRelease(token),
-			fetchContributors(token),
-		]);
+		// 获取 release
+		const releaseRes = await fetchGraphQL(
+			`query($owner: String!, $name: String!) {
+        repository(owner: $owner, name: $name) {
+          latestRelease { tagName publishedAt url description }
+        }
+      }`,
+			REPO,
+			token,
+		);
+		const release = releaseRes.data?.repository?.latestRelease;
+		if (!release) throw new Error("No releases found");
 
-		const newData: Omit<OutputData, "fetchedAt"> = {
-			version: release.version,
+		// 分页获取所有 commits
+		const commits: Array<{
+			author?: {
+				user?: { login: string; avatarUrl: string; url: string } | null;
+			} | null;
+		}> = [];
+		let after: string | null = null;
+		let page = 0;
+
+		while (true) {
+			page++;
+			const res = await fetchGraphQL(QUERY, { ...REPO, after }, token);
+			const history = res.data?.repository?.defaultBranchRef?.target?.history;
+			if (!history) break;
+			commits.push(...history.nodes);
+			console.log(`  Page ${page}: ${commits.length} commits`);
+			if (!history.pageInfo.hasNextPage) break;
+			after = history.pageInfo.endCursor;
+		}
+
+		// 统计贡献者
+		const contributorMap = new Map<
+			string,
+			{
+				login: string;
+				avatar_url: string;
+				html_url: string;
+				contributions: number;
+			}
+		>();
+		for (const c of commits) {
+			const u = c.author?.user;
+			if (!u?.login || EXCLUDE_USERS.has(u.login) || u.login.includes("[bot]"))
+				continue;
+			const existing = contributorMap.get(u.login);
+			if (existing) existing.contributions++;
+			else
+				contributorMap.set(u.login, {
+					login: u.login,
+					avatar_url: u.avatarUrl,
+					html_url: u.url,
+					contributions: 1,
+				});
+		}
+		const contributors = Array.from(contributorMap.values()).sort(
+			(a, b) => b.contributions - a.contributions,
+		);
+
+		const newData = {
+			version: release.tagName.replace(/^v/, ""),
 			releaseUrl: release.url,
-			releaseDate: release.date,
-			releaseNotes: release.notes,
+			releaseDate: release.publishedAt,
+			releaseNotes: release.description || "",
 			contributors,
 		};
 
-		// 读取现有数据并比较
+		// 检查是否有变化
 		if (existsSync(OUTPUT_FILE)) {
-			try {
-				const existing: OutputData = JSON.parse(
-					readFileSync(OUTPUT_FILE, "utf-8"),
+			const existing: OutputData = JSON.parse(
+				readFileSync(OUTPUT_FILE, "utf-8"),
+			);
+			if (
+				existing.version === newData.version &&
+				JSON.stringify(existing.contributors) ===
+					JSON.stringify(newData.contributors)
+			) {
+				console.log(
+					`✓ Version: ${newData.version}, Contributors: ${newData.contributors.length} (no changes)`,
 				);
-				if (isDataEqual(existing, newData)) {
-					console.log(`✓ Version: ${newData.version}`);
-					console.log(`✓ Contributors: ${newData.contributors.length}`);
-					console.log("✓ No changes detected, skipping file write");
-					return;
-				}
-			} catch {
-				// 文件解析失败，继续写入
+				return;
 			}
 		}
 
-		const output: OutputData = {
-			...newData,
-			fetchedAt: new Date().toISOString(),
-		};
-
-		// 写入文件
-		writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), "utf-8");
-
-		console.log(`✓ Version: ${output.version}`);
-		console.log(`✓ Contributors: ${output.contributors.length}`);
-		console.log(`✓ Saved to: ${OUTPUT_FILE}`);
+		writeFileSync(
+			OUTPUT_FILE,
+			JSON.stringify(
+				{ ...newData, fetchedAt: new Date().toISOString() },
+				null,
+				2,
+			),
+		);
+		console.log(
+			`✓ Version: ${newData.version}, Contributors: ${newData.contributors.length}`,
+		);
 	} catch (error) {
-		console.error("Failed to fetch GitHub data:", error);
+		console.error("Failed:", error);
 		process.exit(1);
 	}
 }

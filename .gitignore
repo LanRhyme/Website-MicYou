@@ -5,3 +5,4 @@ pnpm-workspace.yaml
 .DS_Store
 .vercel
 .env*.local
+.env
