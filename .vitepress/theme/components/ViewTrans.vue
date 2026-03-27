@@ -36,7 +36,7 @@ provide("toggle-appearance", async ({ clientX: x, clientY: y }: MouseEvent) => {
 	document.documentElement.animate(
 		{ clipPath: isDark.value ? clipPath.reverse() : clipPath },
 		{
-			duration: 500,
+			duration: 350,
 			easing: "ease-in-out",
 			fill: "forwards",
 			pseudoElement: `::view-transition-${isDark.value ? "old" : "new"}(root)`,
