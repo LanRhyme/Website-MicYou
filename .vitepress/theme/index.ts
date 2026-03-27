@@ -1,8 +1,8 @@
 // https://vitepress.dev/guide/custom-theme
 import type { EnhanceAppContext, Theme } from "vitepress";
-import { useData } from "vitepress";
+import { useData, useRouter } from "vitepress";
 import DefaultTheme from "vitepress/theme-without-fonts";
-import { h } from "vue";
+import { h, onMounted, watch } from "vue";
 import "@theojs/lumen/style";
 import "@fontsource/noto-sans/latin.css";
 import "@fontsource/noto-sans-sc/400.css";
@@ -24,11 +24,30 @@ import ChangelogViewer from "./components/ChangelogViewer/ChangelogViewer.vue";
 import DownloadSection from "./components/DownloadSection/DownloadSection.vue";
 import UmamiStats from "./components/UmamiStats/UmamiStats.vue";
 import "./style.css";
+import ViewTrans from "./components/ViewTrans.vue";
 
 export default {
 	extends: DefaultTheme,
+	setup() {
+		const router = useRouter();
+		onMounted(() => {
+			// 仅在 Chromium 内核浏览器启用视图过渡 API（Firefox/Safari 会闪烁）
+			const isChromium =
+				navigator.userAgent.includes("Chrome") ||
+				navigator.userAgent.includes("Chromium");
+			if (!isChromium || !document.startViewTransition) {
+				return;
+			}
+			router.onBeforeRouteChange = (to) => {
+				document.startViewTransition(async () => {
+					await router.go(to);
+				});
+				return false;
+			};
+		});
+	},
 	Layout: () => {
-		return h(DefaultTheme.Layout, null, {
+		return h(ViewTrans, null, {
 			"layout-top": () => {
 				const { lang } = useData();
 				const skipText: Record<string, string> = {
@@ -73,6 +92,7 @@ export default {
 		app.component("ChangelogViewer", ChangelogViewer);
 		app.component("DownloadSection", DownloadSection);
 		app.component("UmamiStats", UmamiStats);
+		app.component("ViewTrans", ViewTrans);
 		// 注册 Umami Analytics 插件 - 延迟加载优化 INP
 		if (typeof window !== "undefined") {
 			// 使用 requestIdleCallback 延迟加载分析脚本
