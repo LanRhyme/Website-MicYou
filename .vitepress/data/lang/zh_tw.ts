@@ -193,7 +193,7 @@ export function getFooterData(): FooterData {
 							color: { light: "#334355", dark: "#6b8aad" },
 						},
 						name: footer.contributing,
-						link: "https://github.com/LanRhyme/Website-MicYou/blob/master/CONTRIBUTING_zh-tw.md",
+						link: "https://github.com/LanRhyme/MicYou/blob/master/CONTRIBUTING.md",
 						rel: "noopener noreferrer",
 					},
 				],
