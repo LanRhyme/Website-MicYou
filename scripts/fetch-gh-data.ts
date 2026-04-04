@@ -95,23 +95,14 @@ async function main() {
                 const releaseRes = await fetchGraphQL(
                         `query($owner: String!, $name: String!) {
         repository(owner: $owner, name: $name) {
-          releases(first: 20, orderBy: {field: CREATED_AT, direction: DESC}) {
-            nodes {
-              tagName
-              publishedAt
-              url
-              description
-              isPrerelease
-            }
-          }
+          latestRelease { tagName publishedAt url description }
         }
       }`,
                         REPO,
                         token,
                 );
-                const releases = releaseRes.data?.repository?.releases?.nodes || [];
-                const release = releases.find((r: any) => r && !r.isPrerelease);
-                if (!release) throw new Error("No stable release found");
+                const release = releaseRes.data?.repository?.latestRelease;
+                if (!release) throw new Error("No releases found");
 
                 // 分页获取所有 commits
                 const commits: Array<{
