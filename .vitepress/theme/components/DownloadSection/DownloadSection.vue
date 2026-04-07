@@ -224,7 +224,8 @@ const mirrorLink = computed(() => {
   color: #fff;
   font-size: 0.9375rem;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
   transition: all 0.2s;
 }
 
